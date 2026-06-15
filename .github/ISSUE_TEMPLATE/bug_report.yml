@@ -1,0 +1,83 @@
+name: Bug report
+description: Report a defect in TAKT OS
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please search [existing issues](https://github.com/Developer-RU/Takt-OS/issues) first.
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - kernel
+        - drivers
+        - middleware
+        - services
+        - takt_boot / recovery
+        - examples/demo_controller
+        - build / CI
+        - documentation
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: TAKT OS version
+      placeholder: "0.2.0 or git commit"
+    validations:
+      required: true
+
+  - type: input
+    id: hardware
+    attributes:
+      label: Hardware
+      placeholder: "ESP32-D0WD-V3, custom board, etc."
+    validations:
+      required: true
+
+  - type: input
+    id: idf
+    attributes:
+      label: ESP-IDF / PlatformIO version
+      placeholder: "ESP-IDF 5.5.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Build demo_controller
+        2. Flash to ESP32
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Serial log / screenshots
+      description: Paste relevant `idf.py monitor` output
+    validations:
+      required: false

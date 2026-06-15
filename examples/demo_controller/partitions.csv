@@ -1,4 +1,4 @@
-# Copy for wash_controller (relative path from example)
+# Copy for demo_controller (relative path from example)
 # Name,   Type, SubType, Offset,  Size, Flags
 nvs,      data, nvs,     0x9000,  0x6000,
 phy_init, data, phy,     0xf000,  0x1000,

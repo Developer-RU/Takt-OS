@@ -52,7 +52,7 @@ takt::EventBus::instance().unsubscribe(handle);
 | 0x0001–0x00FF | System | SystemBoot, TaktOverrun, MemoryLow |
 | 0x0100–0x01FF | Connectivity | WiFiConnected, MqttConnected |
 | 0x0200–0x02FF | OTA/Recovery | OtaStart, OtaComplete, OtaRollback |
-| 0x0300–0x03FF | Application | SensorDataReady, WashCycleStart |
+| 0x0300–0x03FF | Application | SensorDataReady, CycleStarted |
 | 0x1000+ | User-defined | Кастомные события приложения |
 
 ## EventData

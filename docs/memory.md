@@ -124,7 +124,7 @@ Key-value хранилище с защитой от повреждений.
 
 ```cpp
 auto& nvs = takt::NvsManager::instance();
-nvs.init("wash_pro");
+nvs.init("takt");
 
 nvs.setString("wifi_ssid", "MyNetwork", /*version=*/1);
 nvs.setU32("boot_count", 0, 2);

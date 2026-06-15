@@ -29,7 +29,7 @@ void RelayModule::tick() {
     drivers::Gpio::write(gpioPin_,
         relayOn_ ? drivers::Gpio::Level::High : drivers::Gpio::Level::Low);
     EventBus::instance().publish(
-        relayOn_ ? Event::WashCycleStart : Event::WashCycleComplete);
+        relayOn_ ? Event::CycleStarted : Event::CycleCompleted);
     TAKT_LOGI(TAG, "Relay %s", relayOn_ ? "ON" : "OFF");
 }
 

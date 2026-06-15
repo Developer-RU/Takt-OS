@@ -60,12 +60,14 @@ my_project/
 
 ```cmake
 cmake_minimum_required(VERSION 3.16)
-set(TAKT_OS_ROOT "/path/to/TAKT-OS")
+set(TAKT_OS_ROOT "${CMAKE_CURRENT_LIST_DIR}/../..")
 list(APPEND EXTRA_COMPONENT_DIRS
     "${TAKT_OS_ROOT}/kernel"
     "${TAKT_OS_ROOT}/drivers"
     "${TAKT_OS_ROOT}/middleware"
     "${TAKT_OS_ROOT}/services"
+    "${TAKT_OS_ROOT}/recovery"
+    "${TAKT_OS_ROOT}/takt_boot"
 )
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
 project(my_project)
@@ -114,14 +116,14 @@ takt::EventBus::instance().subscribe(
 auto& nvs = takt::NvsManager::instance();
 
 // Сохранение конфигурации
-struct Config { uint32_t washTime; uint32_t pressure; };
+struct Config { uint32_t cycleTime; uint32_t pressure; };
 Config cfg{120, 150};
-nvs.setBlob("wash_config", &cfg, sizeof(cfg), /*version=*/1);
+nvs.setBlob("app_config", &cfg, sizeof(cfg), /*version=*/1);
 
 // Чтение с проверкой версии
 uint16_t ver;
 Config loaded{};
-if (nvs.getBlob("wash_config", &loaded, sizeof(loaded), &ver) > 0) {
+if (nvs.getBlob("app_config", &loaded, sizeof(loaded), &ver) > 0) {
     if (ver == 1) { /* use config */ }
 }
 ```
@@ -177,7 +179,7 @@ ota_1, app, ota_1, 0x1D0000, 0x180000
 ## 9. Сборка и прошивка
 
 ```bash
-cd examples/wash_controller
+cd examples/demo_controller
 idf.py set-target esp32
 idf.py build
 idf.py -p /dev/ttyUSB0 flash monitor

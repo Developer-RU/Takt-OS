@@ -39,8 +39,8 @@ enum class Event : uint32_t {
     SensorDataReady     = 0x0300,
     UartDataReceived    = 0x0301,
     ModbusRequest       = 0x0302,
-    WashCycleStart      = 0x0303,
-    WashCycleComplete   = 0x0304,
+    CycleStarted        = 0x0303,
+    CycleCompleted      = 0x0304,
 
     // User-defined events start here
     UserDefined         = 0x1000,

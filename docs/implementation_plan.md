@@ -6,7 +6,7 @@
 - [x] IModule, Scheduler, EventBus, TimerManager
 - [x] Logger, Diagnostics, Memory managers
 - [x] Bootloader, Recovery (skeleton)
-- [x] Примеры модулей и wash_controller
+- [x] Примеры модулей и demo_controller
 - [x] Документация и UML
 
 ## Этап 1: Ядро на железе ✅
@@ -41,7 +41,7 @@
 - [x] BleModule — stub (CONFIG_BT_NIMBLE_ENABLED)
 - [x] ModbusModule (RTU)
 - [x] WebServerModule (esp_http_server)
-- [x] RelayModule — WASH-PRO GPIO control
+- [x] RelayModule — Reference demo GPIO control
 
 ## Этап 4: Промышленные сервисы ✅
 

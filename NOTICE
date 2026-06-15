@@ -1,0 +1,82 @@
+TAKT OS
+Copyright 2024-2026 TAKT OS Contributors
+
+This product includes software developed as part of the TAKT OS project.
+Source: https://github.com/Developer-RU/Takt-OS
+
+================================================================================
+Third-Party Software and Attributions
+================================================================================
+
+When using, copying, or redistributing portions of this project, you MUST
+retain this NOTICE file and comply with the licenses of all included
+third-party components listed below.
+
+--------------------------------------------------------------------------------
+Espressif ESP-IDF
+--------------------------------------------------------------------------------
+Copyright (c) Espressif Systems (Shanghai) CO LTD
+License: Apache License 2.0
+Source: https://github.com/espressif/esp-idf
+
+TAKT OS builds on ESP-IDF for ESP32 hardware abstraction, WiFi/BLE stacks,
+NVS, OTA bootloader integration, and the FreeRTOS-based runtime.
+
+--------------------------------------------------------------------------------
+FreeRTOS
+--------------------------------------------------------------------------------
+Copyright (C) Amazon.com, Inc. or its affiliates
+License: MIT (as included in ESP-IDF)
+Source: https://www.freertos.org/
+
+Used indirectly via ESP-IDF for system tasks and the main application task.
+
+--------------------------------------------------------------------------------
+lwIP
+--------------------------------------------------------------------------------
+Copyright (c) 2001-2004 Swedish Institute of Computer Science
+License: BSD-style (as included in ESP-IDF)
+Source: https://savannah.nongnu.org/projects/lwip/
+
+TCP/IP stack used via ESP-IDF for WiFi networking.
+
+--------------------------------------------------------------------------------
+mbedTLS
+--------------------------------------------------------------------------------
+Copyright The mbed TLS Contributors
+License: Apache License 2.0
+Source: https://github.com/Mbed-TLS/mbedtls
+
+TLS/crypto via ESP-IDF.
+
+--------------------------------------------------------------------------------
+Google Test (host unit tests only)
+--------------------------------------------------------------------------------
+Copyright 2008 Google Inc.
+License: BSD 3-Clause
+Source: https://github.com/google/googletest
+
+Used only in the host test suite under tests/ when TAKT_BUILD_TESTS=ON.
+
+--------------------------------------------------------------------------------
+PlatformIO / esptool
+--------------------------------------------------------------------------------
+PlatformIO Core and esptool.py are optional build/flash tools.
+See their respective licenses when distributed with your toolchain.
+
+================================================================================
+Attribution Requirement for Derivative Works
+================================================================================
+
+If you copy, fork, or embed TAKT OS code in your product:
+
+1. Include a copy of LICENSE and this NOTICE file.
+2. State clearly that your work is based on TAKT OS and link to the source.
+3. Document any modifications you made.
+4. Do not remove existing copyright or license headers from source files.
+5. Respect third-party licenses listed above (ESP-IDF, FreeRTOS, etc.).
+
+Example attribution in documentation or About screen:
+
+  "This firmware includes TAKT OS (https://github.com/Developer-RU/Takt-OS),
+   Copyright TAKT OS Contributors, licensed under Apache 2.0."

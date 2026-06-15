@@ -5,7 +5,7 @@
 
 namespace takt::modules {
 
-/// WASH-PRO relay/GPIO control module.
+/// GPIO relay / actuator control module.
 class RelayModule : public IModule {
 public:
     RelayModule(int gpioPin = 26);

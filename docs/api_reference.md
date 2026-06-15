@@ -157,3 +157,26 @@ TAKT_LOGD("Tag", "debug %s", str);     // Debug
 TAKT_PUBLISH(takt::Event::WiFiConnected);
 TAKT_SUBSCRIBE(takt::Event::WiFiConnected, callback, userData);
 ```
+
+## Component documentation
+
+Per-layer file maps and design notes:
+
+| Layer | Doc |
+|-------|-----|
+| Kernel | [components/kernel.md](components/kernel.md) |
+| Drivers | [components/drivers.md](components/drivers.md) |
+| Middleware | [components/middleware.md](components/middleware.md) |
+| Services | [components/services.md](components/services.md) |
+| Recovery | [components/recovery.md](components/recovery.md) |
+| takt_boot | [components/takt_boot.md](components/takt_boot.md) |
+| Examples | [components/examples.md](components/examples.md) |
+| SDK / Lite | [components/sdk_lite.md](components/sdk_lite.md) |
+
+## C SDK
+
+See `sdk/include/takt_sdk.h` and [components/sdk_lite.md](components/sdk_lite.md).
+
+## License
+
+API documentation © TAKT OS Contributors. Code licensed under [Apache 2.0](../LICENSE). When reusing snippets, attribute the source — see [licensing.md](licensing.md).

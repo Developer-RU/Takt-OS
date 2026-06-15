@@ -1,0 +1,5 @@
+{
+  "platformio-ide.autoRebuildAutocompleteIndex": true,
+  "platformio-ide.useBuiltinPIOCore": true,
+  "C_Cpp.default.configurationProvider": "platformio.platformio-ide"
+}

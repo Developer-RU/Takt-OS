@@ -82,7 +82,7 @@ scheduler.initAll();  // вызов init() для каждого модуля
 
 ```cpp
 scheduler.setTaktPeriodMs(1);       // Период такта: 1 мс
-scheduler.setTaktBudgetUs(5000);    // Бюджет: 5 мс (для wash controller)
+scheduler.setTaktBudgetUs(5000);    // Бюджет: 5 мс (для demo controller)
 
 // Per-module budget (статические модули):
 class UartModule : public IModule {
@@ -131,7 +131,7 @@ classDiagram
 
 ## Рекомендации
 
-1. **Период такта 1 мс** — оптимален для wash controller и IoT-шлюзов
+1. **Период такта 1 мс** — оптимален для demo controller и IoT-шлюзов
 2. **taktBudgetUs ≤ 80% периода** — оставлять запас для FreeRTOS IDLE
 3. **Статические модули** — всегда задавать `budgetUs()`
 4. **Динамические модули** — ограничивать работу внутри tick(), не блокировать

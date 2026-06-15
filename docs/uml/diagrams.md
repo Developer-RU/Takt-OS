@@ -3,7 +3,7 @@
 ```mermaid
 graph TB
     subgraph "Application Layer"
-        WashApp[Wash Controller]
+        DemoApp[Demo Controller]
         Gateway[IoT Gateway]
         Telemetry[Telemetry Node]
     end
@@ -49,11 +49,11 @@ graph TB
         ADC[ADC]
     end
 
-    WashApp --> UART
-    WashApp --> Sensor
-    WashApp --> WiFi
-    WashApp --> MQTT
-    WashApp --> OTA
+    DemoApp --> UART
+    DemoApp --> Sensor
+    DemoApp --> WiFi
+    DemoApp --> MQTT
+    DemoApp --> OTA
 
     UART --> Scheduler
     Sensor --> Scheduler

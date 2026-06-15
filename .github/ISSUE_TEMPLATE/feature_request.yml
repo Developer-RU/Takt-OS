@@ -1,0 +1,48 @@
+name: Feature request
+description: Suggest an enhancement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / use case
+      description: What problem does this solve? Who benefits?
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Affected layer
+      options:
+        - kernel
+        - drivers
+        - middleware
+        - services
+        - SDK / Lite
+        - tooling / docs
+        - other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      options:
+        - label: I considered implementing this as an external module via IModule / SDK
+          required: false
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Additional context
+      required: false

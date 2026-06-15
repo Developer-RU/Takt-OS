@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "name": "TAKT-OS",
+      "path": "."
+    },
+    {
+      "name": "demo_controller (PlatformIO)",
+      "path": "examples/demo_controller"
+    }
+  ],
+  "settings": {
+    "platformio-ide.autoRebuildAutocompleteIndex": true,
+    "platformio-ide.useBuiltinPIOCore": true,
+    "C_Cpp.default.configurationProvider": "platformio.platformio-ide"
+  },
+  "extensions": {
+    "recommendations": [
+      "platformio.platformio-ide"
+    ]
+  }
+}

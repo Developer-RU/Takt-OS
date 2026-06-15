@@ -66,8 +66,8 @@ int main()
         takt::Event::WiFiConnected,
         [](const takt::EventData&, void* ctx) {
             auto* m = static_cast<takt::modules::MqttModule*>(ctx);
-            m->subscribe("wash/telemetry");
-            TAKT_LOGI("WashCtrl", "WiFi up — MQTT subscribed");
+            m->subscribe("takt/telemetry");
+            TAKT_LOGI("DemoApp", "WiFi up — MQTT subscribed");
         }, &mqtt);
 
     takt::EventBus::instance().subscribe(
@@ -84,16 +84,16 @@ int main()
     statsTimer.onTimeout([&kernel]() { kernel.printStatistics(); });
     statsTimer.start();
 
-    takt::Timer washTimer(10000, true);
-    washTimer.onTimeout([&relay]() {
+    takt::Timer demoTimer(10000, true);
+    demoTimer.onTimeout([&relay]() {
         static bool on = false;
         on = !on;
         relay.setRelay(on);
     });
-    washTimer.start();
+    demoTimer.start();
 
     if (!kernel.boot()) {
-        TAKT_LOGE("WashCtrl", "Kernel boot failed");
+        TAKT_LOGE("DemoApp", "Kernel boot failed");
         return;
     }
 

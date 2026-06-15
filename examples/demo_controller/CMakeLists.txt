@@ -12,4 +12,4 @@ list(APPEND EXTRA_COMPONENT_DIRS
 )
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(wash_controller)
+project(demo_controller)

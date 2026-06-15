@@ -1,15 +1,41 @@
+# Build artifacts
 build/
+**/build/
+.pio/
+dist/
+
+# ESP-IDF generated (never commit — contains machine-specific paths)
 sdkconfig
 sdkconfig.old
+**/sdkconfig
+**/sdkconfig.old
+!**/sdkconfig.defaults
+dependencies.lock
+managed_components/
+
+# CMake / IDE
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+compile_commands.json
+config.env
+*.cmake.user
+
+# Python
 *.pyc
 __pycache__/
-.vscode/
+
+# Editor (keep shared templates in repo)
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/settings.json
 .idea/
 *.swp
+
+# Binaries
 *.o
 *.a
 *.elf
 *.bin
 *.map
-dependencies.lock
-managed_components/

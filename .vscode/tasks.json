@@ -1,0 +1,85 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ESP-IDF: Build demo_controller",
+      "type": "shell",
+      "command": "test -n \"${env:IDF_PATH}\" && . \"${env:IDF_PATH}/export.sh\" && cd \"${workspaceFolder}/examples/demo_controller\" && idf.py build",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$gcc",
+      "options": {
+        "shell": {
+          "executable": "/bin/bash",
+          "args": ["-c"]
+        }
+      }
+    },
+    {
+      "label": "ESP-IDF: Flash demo_controller",
+      "type": "shell",
+      "command": "test -n \"${env:IDF_PATH}\" && . \"${env:IDF_PATH}/export.sh\" && cd \"${workspaceFolder}/examples/demo_controller\" && idf.py -p \"${input:serialPort}\" flash",
+      "group": "none",
+      "problemMatcher": "$gcc",
+      "options": {
+        "shell": {
+          "executable": "/bin/bash",
+          "args": ["-c"]
+        }
+      }
+    },
+    {
+      "label": "ESP-IDF: Monitor",
+      "type": "shell",
+      "command": "test -n \"${env:IDF_PATH}\" && . \"${env:IDF_PATH}/export.sh\" && cd \"${workspaceFolder}/examples/demo_controller\" && idf.py -p \"${input:serialPort}\" monitor",
+      "isBackground": true,
+      "problemMatcher": [],
+      "options": {
+        "shell": {
+          "executable": "/bin/bash",
+          "args": ["-c"]
+        }
+      }
+    },
+    {
+      "label": "ESP-IDF: Flash + Monitor",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "ESP-IDF: Flash demo_controller",
+        "ESP-IDF: Monitor"
+      ],
+      "group": "none"
+    },
+    {
+      "label": "PlatformIO: Build demo_controller",
+      "type": "shell",
+      "command": "pio run -d \"${workspaceFolder}/examples/demo_controller\"",
+      "group": "build",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "PlatformIO: Upload demo_controller",
+      "type": "shell",
+      "command": "pio run -d \"${workspaceFolder}/examples/demo_controller\" -t upload",
+      "group": "none",
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "PlatformIO: Monitor demo_controller",
+      "type": "shell",
+      "command": "pio device monitor -d \"${workspaceFolder}/examples/demo_controller\"",
+      "isBackground": true,
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "serialPort",
+      "type": "promptString",
+      "description": "Serial port (e.g. /dev/ttyUSB0, COM3)",
+      "default": ""
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 # Requires ESP-IDF >= 5.0 for ESP32 targets
 cmake_minimum_required(VERSION 3.16)
 
-set(TAKT_OS_VERSION "0.1.0" CACHE STRING "TAKT OS version")
+set(TAKT_OS_VERSION "0.2.0" CACHE STRING "TAKT OS version")
 project(takt-os VERSION ${TAKT_OS_VERSION} LANGUAGES C CXX ASM)
 
 set(CMAKE_CXX_STANDARD 17)

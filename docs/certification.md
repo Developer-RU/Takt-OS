@@ -2,7 +2,7 @@
 
 ## Scope
 
-TAKT OS v0.2.0 for ESP32-based industrial controllers (WASH-PRO, IoT gateways).
+TAKT OS v0.2.0 for ESP32-based industrial controllers (reference demo, IoT gateways).
 
 ## Test Matrix
 

@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  host-tests:
+  host-lib:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,16 +21,36 @@ jobs:
       - name: Build
         run: cmake --build build -j
 
+  host-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake g++
+
+      - name: Configure tests
+        working-directory: tests
+        run: cmake -B build
+
+      - name: Build tests
+        working-directory: tests
+        run: cmake --build build -j
+
+      - name: Run tests
+        working-directory: tests
+        run: ctest --test-dir build --output-on-failure
+
   esp32-build:
     runs-on: ubuntu-latest
     container: espressif/idf:release-v5.2
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build wash_controller
+      - name: Build demo_controller
         run: |
           . $IDF_PATH/export.sh
-          cd examples/wash_controller
+          cd examples/demo_controller
           idf.py set-target esp32
           idf.py build
 

@@ -80,21 +80,21 @@ WiFi и BLE OTA с поддержкой отката через FirmwareCache.
 ## Создание кастомного модуля
 
 ```cpp
-class WashCycleModule : public takt::IModule {
-    enum class State { Idle, Washing, Rinsing, Drying };
+class ProcessCycleModule : public takt::IModule {
+    enum class State { Idle, Running, Cooling, Done };
     State state_ = State::Idle;
 
 public:
     bool init() override { return true; }
     void tick() override {
         switch (state_) {
-            case State::Washing: doWashing(); break;
-            case State::Rinsing: doRinsing(); break;
+            case State::Running: doRunning(); break;
+            case State::Cooling: doCooling(); break;
             default: break;
         }
     }
     void shutdown() override { state_ = State::Idle; }
-    const char* name() const override { return "WashCycle"; }
+    const char* name() const override { return "ProcessCycle"; }
     takt::ModuleType type() const override { return takt::ModuleType::Static; }
     uint32_t budgetUs() const override { return 3000; }
 };
