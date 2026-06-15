@@ -1,0 +1,42 @@
+name: TAKT OS CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  host-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake g++
+
+      - name: Configure
+        run: cmake -B build -DTAKT_BUILD_TESTS=OFF
+
+      - name: Build
+        run: cmake --build build -j
+
+  esp32-build:
+    runs-on: ubuntu-latest
+    container: espressif/idf:release-v5.2
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build wash_controller
+        run: |
+          . $IDF_PATH/export.sh
+          cd examples/wash_controller
+          idf.py set-target esp32
+          idf.py build
+
+      - name: Build recovery_app
+        run: |
+          . $IDF_PATH/export.sh
+          cd examples/recovery_app
+          idf.py set-target esp32
+          idf.py build
