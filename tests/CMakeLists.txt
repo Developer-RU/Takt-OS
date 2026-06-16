@@ -28,7 +28,7 @@ add_executable(takt_tests
     test_bootloader.cpp
 )
 
-target_link_libraries(takt_tests PRIVATE takt_kernel)
+target_link_libraries(takt_tests PRIVATE takt_kernel GTest::gtest GTest::gtest_main)
 target_include_directories(takt_tests PRIVATE
     ${CMAKE_SOURCE_DIR}/../takt_boot/include
 )

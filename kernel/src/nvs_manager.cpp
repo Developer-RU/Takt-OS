@@ -9,10 +9,21 @@
 #include <cstring>
 #include <cstdio>
 #include <vector>
+#include <string>
+#include <unordered_map>
 
 #ifdef TAKT_ESP32
 #include "nvs_flash.h"
 #include "nvs.h"
+#else
+namespace {
+struct HostNvsEntry {
+    std::vector<uint8_t> data;
+    uint16_t version = 0;
+    uint32_t crc32 = 0;
+};
+std::unordered_map<std::string, HostNvsEntry> gHostNvs;
+} // namespace
 #endif
 
 namespace takt {
@@ -71,7 +82,12 @@ bool NvsManager::writeEntry(const char* key, const void* data, size_t len, uint1
     nvs_close(handle);
     return err == ESP_OK;
 #else
-    (void)key; (void)data; (void)len; (void)version;
+    HostNvsEntry entry;
+    entry.data.assign(static_cast<const uint8_t*>(data),
+                      static_cast<const uint8_t*>(data) + len);
+    entry.version = version;
+    entry.crc32 = computeCrc(data, len);
+    gHostNvs[std::string(namespace_) + ":" + key] = std::move(entry);
     return true;
 #endif
 }
@@ -104,8 +120,12 @@ bool NvsManager::readEntry(const char* key, void* data, size_t maxLen, uint16_t*
     if (version) *version = meta.version;
     return true;
 #else
-    (void)key; (void)data; (void)maxLen; (void)version;
-    return false;
+    const auto it = gHostNvs.find(std::string(namespace_) + ":" + key);
+    if (it == gHostNvs.end() || it->second.data.size() > maxLen) return false;
+    std::memcpy(data, it->second.data.data(), it->second.data.size());
+    if (computeCrc(data, it->second.data.size()) != it->second.crc32) return false;
+    if (version) *version = it->second.version;
+    return true;
 #endif
 }
 

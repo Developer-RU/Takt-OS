@@ -109,9 +109,9 @@ void MqttModule::shutdown() {
         esp_mqtt_client_destroy(gClient);
         gClient = nullptr;
     }
+    gModule = nullptr;
 #endif
     connected_ = false;
-    gModule = nullptr;
     TAKT_LOGI(TAG, "MQTT shutdown");
 }
 

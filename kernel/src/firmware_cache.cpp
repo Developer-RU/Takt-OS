@@ -19,6 +19,7 @@ namespace takt {
 namespace {
 constexpr const char* TAG = "FwCache";
 static constexpr size_t kVerifyChunk = 4096;
+static constexpr uint32_t kHeaderReserved = 4096; // one flash sector for metadata
 }
 
 bool FirmwareCache::init(uint32_t slotAOffset, uint32_t slotBOffset, uint32_t slotSize) {
@@ -43,23 +44,17 @@ bool FirmwareCache::init(uint32_t slotAOffset, uint32_t slotBOffset, uint32_t sl
 }
 
 bool FirmwareCache::beginWrite(uint32_t imageSize, uint32_t version) {
-    if (imageSize > slotSize_ - sizeof(FirmwareHeader)) {
+    if (imageSize > slotSize_ - kHeaderReserved) {
         TAKT_LOGE(TAG, "Image too large: %u", imageSize);
         return false;
     }
     const uint8_t slot = inactiveSlot();
-    writeOffset_ = sizeof(FirmwareHeader);
+    writeOffset_ = kHeaderReserved;
     writeCrc_ = Crc32::initial();
     writeImageSize_ = imageSize;
+    writeVersion_ = version;
     writing_ = true;
 
-    FirmwareHeader hdr{};
-    hdr.magic = kFirmwareMagic;
-    hdr.version = version;
-    hdr.size = imageSize;
-    hdr.slot = slot;
-    hdr.flags = 0;
-    StorageManager::instance().write(slotOffset_[slot], &hdr, sizeof(hdr));
     TAKT_LOGI(TAG, "Begin write slot %c size=%u", slot == 0 ? 'A' : 'B', imageSize);
     return true;
 }
@@ -68,7 +63,7 @@ int FirmwareCache::writeChunk(const void* data, size_t len) {
     if (!writing_) return -1;
     const uint8_t slot = inactiveSlot();
     const uint32_t offset = slotOffset_[slot] + writeOffset_;
-    if (StorageManager::instance().write(offset, data, len) != 0) return -1;
+    if (StorageManager::instance().write(offset, data, len) < 0) return -1;
     writeCrc_ = Crc32::update(writeCrc_, data, len);
     writeOffset_ += static_cast<uint32_t>(len);
     return static_cast<int>(len);
@@ -80,7 +75,10 @@ bool FirmwareCache::finalizeWrite() {
     const uint32_t finalCrc = Crc32::finalize(writeCrc_);
 
     FirmwareHeader hdr{};
-    StorageManager::instance().read(slotOffset_[slot], &hdr, sizeof(hdr));
+    hdr.magic = kFirmwareMagic;
+    hdr.version = writeVersion_;
+    hdr.size = writeImageSize_;
+    hdr.slot = slot;
     hdr.crc32 = finalCrc;
     hdr.flags = 0x01;
     StorageManager::instance().write(slotOffset_[slot], &hdr, sizeof(hdr));
@@ -97,7 +95,7 @@ bool FirmwareCache::verify(uint8_t slot) const {
 
     uint32_t crc = Crc32::initial();
     uint32_t remaining = hdr.size;
-    uint32_t offset = slotOffset_[slot] + sizeof(FirmwareHeader);
+    uint32_t offset = slotOffset_[slot] + kHeaderReserved;
     uint8_t buf[kVerifyChunk];
 
     while (remaining > 0) {

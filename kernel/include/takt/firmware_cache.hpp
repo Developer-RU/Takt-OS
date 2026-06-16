@@ -74,6 +74,7 @@ private:
     uint32_t writeOffset_ = 0;
     uint32_t writeCrc_    = 0;
     uint32_t writeImageSize_ = 0;
+    uint32_t writeVersion_ = 0;
     bool     writing_     = false;
 
     uint32_t crc32(const void* data, size_t len) const;

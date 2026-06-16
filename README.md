@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/takt-os-banner.svg" alt="TAKT OS — Industrial cycle-based RTOS for ESP32" width="100%"/>
+<img src="https://raw.githubusercontent.com/Developer-RU/Takt-OS/main/docs/assets/takt-os-banner.svg" alt="TAKT OS — Industrial cycle-based RTOS for ESP32" width="100%"/>
 
 <br/>
 

@@ -71,9 +71,9 @@ void WiFiOta::stop() {
         httpd_stop(gServer);
         gServer = nullptr;
     }
+    gInstance = nullptr;
 #endif
     active_ = false;
-    gInstance = nullptr;
 }
 
 void WiFiOta::setDataHandler(DfuDataCallback handler) {

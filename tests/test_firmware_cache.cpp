@@ -45,7 +45,7 @@ TEST(FirmwareCacheTest, WriteVerifyCrc) {
     takt::StorageManager::instance().init(backend);
 
     auto& fc = takt::FirmwareCache::instance();
-    fc.init(0x1000, 0x8000, 0x6000);
+    fc.init(0x1000, 0x4000, 0x8000);
 
     const char data[] = "TAKT firmware image test payload";
     ASSERT_TRUE(fc.beginWrite(sizeof(data), 0x00010000));
