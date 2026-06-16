@@ -15,13 +15,13 @@
 [![FreeRTOS](https://img.shields.io/badge/runtime-FreeRTOS-7e57c2?style=for-the-badge)](https://www.freertos.org/)
 
 [![Docs](https://img.shields.io/badge/documentation-full-64748b?style=for-the-badge&logo=readthedocs&logoColor=white)](docs/README.md)
-[![Wiki](https://img.shields.io/badge/wiki-оглавление%20RU-181717?style=for-the-badge&logo=github&logoColor=white)](docs/wiki/Home.md)
+[![Wiki](https://img.shields.io/badge/wiki-navigation-181717?style=for-the-badge&logo=github&logoColor=white)](docs/wiki/Home.md)
 [![CI](https://img.shields.io/github/actions/workflow/status/Developer-RU/Takt-OS/ci.yml?branch=main&style=for-the-badge&label=CI&logo=githubactions&logoColor=white)](https://github.com/Developer-RU/Takt-OS/actions)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-8b5cf6?style=for-the-badge&logo=github&logoColor=white)](CONTRIBUTING.md)
 
 **Deterministic takt scheduling for industrial ESP32 firmware**
 
-[English](#overview) · [Русский](#обзор-ru) · [Docs](docs/README.md) · [Changelog](CHANGELOG.md) · [Issues](https://github.com/Developer-RU/Takt-OS/issues)
+[Docs](docs/README.md) · [Changelog](CHANGELOG.md) · [Issues](https://github.com/Developer-RU/Takt-OS/issues)
 
 </div>
 
@@ -207,10 +207,10 @@ Component reference: [docs/components/](docs/components/) · File map: [docs/sou
 
 | | |
 |---|---|
-| [docs/README.md](docs/README.md) | Полная документация (основной источник) |
-| [docs/wiki/Home.md](docs/wiki/Home.md) | Вики: русское оглавление |
-| [docs/faq.md](docs/faq.md) | Частые вопросы |
-| [CHANGELOG.md](CHANGELOG.md) | История версий |
+| [docs/README.md](docs/README.md) | Full documentation (primary source) |
+| [docs/wiki/Home.md](docs/wiki/Home.md) | Wiki: navigation index |
+| [docs/faq.md](docs/faq.md) | Frequently asked questions |
+| [CHANGELOG.md](CHANGELOG.md) | Version history |
 
 ---
 
@@ -224,6 +224,13 @@ From [`tools/partitions.csv`](tools/partitions.csv) (also in `examples/demo_cont
 | `recovery` | 0x110000 | 256 KB | Recovery app (subtype `test`) |
 | `ota_0` / `ota_1` | … | 1.25 MB | OTA slots |
 | `storage` | 0x3D0000 | 192 KB | Raw data region |
+
+---
+
+## Author
+
+**Masyukov Pavel** — [p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)  
+Developer and maintainer of TAKT OS.
 
 ---
 
@@ -241,43 +248,9 @@ From [`tools/partitions.csv`](tools/partitions.csv) (also in `examples/demo_cont
 
 You may copy, modify, and redistribute **with attribution**:
 
-> Based on [TAKT OS](https://github.com/Developer-RU/Takt-OS), Copyright TAKT OS Contributors, Apache 2.0.
+> Based on [TAKT OS](https://github.com/Developer-RU/Takt-OS) by Masyukov Pavel, Copyright 2024-2026 Masyukov Pavel, [Apache License 2.0](LICENSE).
 
 Third-party notices (ESP-IDF, FreeRTOS, lwIP, …): [NOTICE](NOTICE) · [docs/licensing.md](docs/licensing.md)
-
----
-
-## Обзор (RU)
-
-<div align="center">
-
-<img src="docs/assets/takt-os-icon.svg" alt="TAKT OS" width="96"/>
-
-</div>
-
-**TAKT OS** — открытая промышленная платформа для ESP32 с **тактовым планировщиком**. Каждый цикл ядро последовательно вызывает зарегистрированные модули в фиксированном порядке — как scan cycle в ПЛК.
-
-### Зачем это нужно
-
-ESP-IDF даёт железо, WiFi и FreeRTOS. TAKT OS даёт **предсказуемую модель приложения**: Modbus, датчики, реле, телеметрия, OTA — без гонки приоритетов между задачами прикладного уровня.
-
-### Быстрый старт
-
-```bash
-git clone https://github.com/Developer-RU/Takt-OS.git
-cd Takt-OS/examples/demo_controller
-source $IDF_PATH/export.sh
-idf.py set-target esp32 && idf.py build
-idf.py -p PORT flash monitor
-```
-
-### Документация
-
-[docs/README.md](docs/README.md) — полный индекс · [вики-оглавление](docs/wiki/Home.md) · [FAQ](docs/faq.md)
-
-### Лицензия
-
-Apache 2.0 — можно копировать и использовать **с указанием источника** ([NOTICE](NOTICE)).
 
 ---
 
@@ -285,6 +258,6 @@ Apache 2.0 — можно копировать и использовать **с 
 
 **[⭐ Star us on GitHub](https://github.com/Developer-RU/Takt-OS)** if TAKT OS is useful for your project.
 
-Made for industrial ESP32 firmware · **TAKT OS v0.2.0**
+Made for industrial ESP32 firmware · **TAKT OS v0.2.0** · Masyukov Pavel
 
 </div>

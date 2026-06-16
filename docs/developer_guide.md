@@ -1,8 +1,8 @@
-# TAKT OS — Руководство разработчика
+# TAKT OS — Developer Guide
 
-## 1. Создание модуля
+## 1. Creating a Module
 
-### Шаг 1: Определить класс
+### Step 1: Define the Class
 
 ```cpp
 #include "takt/imodule.hpp"
@@ -10,16 +10,16 @@
 class MyModule : public takt::IModule {
 public:
     bool init() override {
-        // Инициализация hardware, alloc buffers
+        // Initialize hardware, allocate buffers
         return true;
     }
 
     void tick() override {
-        // Работа за один такт
+        // Work for one takt cycle
     }
 
     void shutdown() override {
-        // Освобождение ресурсов
+        // Release resources
     }
 
     const char* name() const override { return "MyModule"; }
@@ -28,24 +28,24 @@ public:
 };
 ```
 
-### Шаг 2: Выбрать тип модуля
+### Step 2: Choose a Module Type
 
-| Тип | Когда использовать | Реализовать |
-|-----|-------------------|-------------|
-| `Static` | Фиксированная работа (UART, ADC, GPIO) | `budgetUs()` |
-| `Dynamic` | Переменная нагрузка (парсер, скрипт) | `tick()` с циклом |
-| `Background` | Ожидание событий (BLE, OTA) | `hasWork()` |
+| Type | When to Use | Implement |
+|------|-------------|-----------|
+| `Static` | Fixed workload (UART, ADC, GPIO) | `budgetUs()` |
+| `Dynamic` | Variable load (parser, script) | `tick()` with a loop |
+| `Background` | Event waiting (BLE, OTA) | `hasWork()` |
 
-### Шаг 3: Зарегистрировать
+### Step 3: Register
 
 ```cpp
 MyModule myModule;
 kernel.scheduler().registerModule(&myModule);
 ```
 
-## 2. Создание ESP-IDF проекта
+## 2. Creating an ESP-IDF Project
 
-### Структура
+### Structure
 
 ```
 my_project/
@@ -88,10 +88,10 @@ extern "C" void app_main(void) {
 }
 ```
 
-## 3. Работа с событиями
+## 3. Working with Events
 
 ```cpp
-// Публикация из модуля
+// Publish from a module
 void SensorModule::tick() {
     processOneSample();
     takt::EventData ev{};
@@ -100,7 +100,7 @@ void SensorModule::tick() {
     takt::EventBus::instance().enqueue(ev);
 }
 
-// Подписка в main
+// Subscribe in main
 takt::EventBus::instance().subscribe(
     takt::Event::SensorDataReady,
     [](const takt::EventData& data, void* ctx) {
@@ -110,17 +110,17 @@ takt::EventBus::instance().subscribe(
 );
 ```
 
-## 4. Работа с NVS
+## 4. Working with NVS
 
 ```cpp
 auto& nvs = takt::NvsManager::instance();
 
-// Сохранение конфигурации
+// Save configuration
 struct Config { uint32_t cycleTime; uint32_t pressure; };
 Config cfg{120, 150};
 nvs.setBlob("app_config", &cfg, sizeof(cfg), /*version=*/1);
 
-// Чтение с проверкой версии
+// Read with version check
 uint16_t ver;
 Config loaded{};
 if (nvs.getBlob("app_config", &loaded, sizeof(loaded), &ver) > 0) {
@@ -128,7 +128,7 @@ if (nvs.getBlob("app_config", &loaded, sizeof(loaded), &ver) > 0) {
 }
 ```
 
-## 5. OTA обновление
+## 5. OTA Update
 
 ```cpp
 #include "takt/services/ota_service.hpp"
@@ -136,19 +136,19 @@ if (nvs.getBlob("app_config", &loaded, sizeof(loaded), &ver) > 0) {
 takt::services::OtaService ota;
 kernel.scheduler().registerModule(&ota);
 
-// Запуск OTA
+// Start OTA
 ota.startUpdate(takt::services::OtaTransport::WiFi, imageSize, newVersion);
 
-// Прогресс
+// Progress
 ota.onProgress([](uint32_t rx, uint32_t total) {
     printf("OTA: %u%%\n", rx * 100 / total);
 });
 ```
 
-## 6. Отладка и профилирование
+## 6. Debugging and Profiling
 
 ```cpp
-// Периодический вывод статистики
+// Periodic statistics output
 takt::Timer diagTimer(10000, true);
 diagTimer.onTimeout([]() {
     takt::Kernel::instance().printStatistics();
@@ -157,26 +157,26 @@ diagTimer.onTimeout([]() {
 diagTimer.start();
 ```
 
-## 7. Соглашения по коду
+## 7. Coding Conventions
 
-- C++17, без исключений в hot path
-- Именование: `PascalCase` для классов, `camelCase` для методов
-- Namespace: `takt::` для ядра, `takt::modules::` для middleware, `takt::services::` для сервисов
-- Логирование: `TAKT_LOGI/W/E/D("Tag", ...)`
-- Не блокировать в `tick()` — это нарушает детерминизм такта
-- Фоновые модули: всегда реализуйте `hasWork()` корректно
-- События в `tick()`: используйте `enqueue()`, не `publish()`
+- C++17, no exceptions in the hot path
+- Naming: `PascalCase` for classes, `camelCase` for methods
+- Namespace: `takt::` for the kernel, `takt::modules::` for middleware, `takt::services::` for services
+- Logging: `TAKT_LOGI/W/E/D("Tag", ...)`
+- Do not block in `tick()` — it breaks takt determinism
+- Background modules: always implement `hasWork()` correctly
+- Events in `tick()`: use `enqueue()`, not `publish()`
 
 ## 8. Partition Table
 
-Используйте `tools/partitions.csv` как шаблон. Для OTA обязательны два OTA-слота:
+Use `tools/partitions.csv` as a template. Two OTA slots are required for OTA:
 
 ```
 ota_0, app, ota_0, 0x50000, 0x180000
 ota_1, app, ota_1, 0x1D0000, 0x180000
 ```
 
-## 9. Сборка и прошивка
+## 9. Build and Flash
 
 ```bash
 cd examples/demo_controller
@@ -185,7 +185,7 @@ idf.py build
 idf.py -p /dev/ttyUSB0 flash monitor
 ```
 
-## 10. Host-тесты
+## 10. Host Tests
 
 ```bash
 mkdir build && cd build
@@ -193,3 +193,7 @@ cmake .. -DTAKT_BUILD_TESTS=ON
 cmake --build .
 ctest --output-on-failure
 ```
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

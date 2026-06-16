@@ -132,3 +132,7 @@ See [docs/README.md](README.md) for full documentation index.
 When using `REQUIRES` in `CMakeLists.txt`, use **directory names**:
 
 `kernel`, `drivers`, `middleware`, `services`, `recovery`, `takt_boot`
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

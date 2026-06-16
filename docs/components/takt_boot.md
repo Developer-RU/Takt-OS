@@ -46,3 +46,7 @@ esp_partition_find_first(
 
 - [bootloader.md](../bootloader.md)
 - [recovery.md](../recovery.md)
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

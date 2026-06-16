@@ -1,3 +1,6 @@
+# Copyright 2024-2026 Masyukov Pavel <p.masyukov@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+# TAKT OS — https://github.com/Developer-RU/Takt-OS
 # Copy for demo_controller (relative path from example)
 # Name,   Type, SubType, Offset,  Size, Flags
 nvs,      data, nvs,     0x9000,  0x6000,

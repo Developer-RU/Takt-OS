@@ -1,19 +1,19 @@
 # TAKT OS Recovery Layer
 
-## Назначение
+## Purpose
 
-Recovery — автономный модуль восстановления, расположенный в отдельном flash-разделе (256 KB). Запускается bootloader'ом при невалидной основной прошивке или по запросу пользователя. Обеспечивает обновление и откат прошивки даже при полном повреждении application layer.
+Recovery is an autonomous recovery module located in a separate flash partition (256 KB at `0x110000`). It is started by the bootloader when the main firmware is invalid or on user request. It provides firmware update and rollback even when the application layer is fully corrupted.
 
-## Функции
+## Functions
 
-| Функция | Канал | Описание |
-|---------|-------|----------|
-| BLE DFU | Bluetooth LE | Приём прошивки через GATT |
+| Function | Channel | Description |
+|----------|---------|-------------|
+| BLE DFU | Bluetooth LE | Receive firmware over GATT |
 | OTA DFU | WiFi | HTTP/MQTT firmware download |
-| Загрузка прошивки | UART | Fallback для производства |
-| Откат | Internal | Активация предыдущего слота |
+| Firmware upload | UART | Manufacturing fallback |
+| Rollback | Internal | Activate previous slot |
 
-## Архитектура
+## Architecture
 
 ```mermaid
 graph LR
@@ -33,7 +33,7 @@ graph LR
     UART --> RM
 ```
 
-## DFU State Machine
+## DFU state machine
 
 ```mermaid
 stateDiagram-v2
@@ -69,34 +69,39 @@ recovery.startDfuListener();
 recovery.finalizeDfu();  // verify + install + reboot
 ```
 
-## Откат прошивки
+## Firmware rollback
 
-Dual-bank архитектура (Slot A / Slot B):
+Dual-bank architecture (Slot A / Slot B):
 
-1. Активный слот — текущая прошивка
-2. Неактивный слот — принимает OTA
-3. После успешной записи и верификации — `activateSlot(inactive)`
-4. При сбое новой прошивки (bootCount > 3) — bootloader запускает Recovery
-5. `rollback()` — атомарная активация предыдущего слота
+1. Active slot — current firmware
+2. Inactive slot — receives OTA image
+3. After successful write and verification — `activateSlot(inactive)`
+4. On failure of new firmware (`bootCount > 3`) — bootloader starts Recovery
+5. `rollback()` — atomic activation of the previous slot
 
 ```cpp
-// Откат из приложения:
+// Rollback from application:
 takt::recovery::RecoveryManager::instance().rollback();
-// или через OTA Service:
+// or via OTA Service:
 takt::services::OtaService::rollback();
 ```
 
-## Независимость
+## Independence
 
 Recovery partition:
-- Собственный `CMakeLists.txt` / ESP-IDF component
-- Минимальные зависимости: `takt_kernel` (StorageManager, FirmwareCache, Logger)
-- Не зависит от middleware (WiFi, MQTT, BLE modules)
-- BLE/WiFi стеки инициализируются внутри recovery при необходимости
 
-## Безопасность
+- Own `CMakeLists.txt` / ESP-IDF component
+- Minimal dependencies: `takt_kernel` (StorageManager, FirmwareCache, Logger)
+- Does not depend on middleware (WiFi, MQTT, BLE modules)
+- BLE/WiFi stacks are initialized inside recovery when needed
 
-- CRC32 верификация перед активацией
-- Запись только в неактивный слот
-- Атомарное переключение слота (обновление flags в FirmwareHeader)
-- bootCount watchdog предотвращает boot loop на битой прошивке
+## Security
+
+- CRC32 verification before activation
+- Writes only to the inactive slot
+- Atomic slot switch (update flags in `FirmwareHeader`)
+- `bootCount` watchdog prevents boot loop on corrupted firmware
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

@@ -10,7 +10,7 @@
 | Budget | 500 µs |
 | File | `middleware/include/takt/modules/uart_module.hpp` |
 
-Читает фиксированное количество байт из UART за такт. Публикует `Event::UartDataReceived`.
+Reads a fixed number of bytes from UART per takt cycle. Publishes `Event::UartDataReceived`.
 
 ```cpp
 takt::modules::UartModule uart(0, 16);  // port 0, 16 bytes/takt
@@ -24,7 +24,7 @@ takt::modules::UartModule uart(0, 16);  // port 0, 16 bytes/takt
 | Budget | 2000 µs |
 | File | `middleware/include/takt/modules/sensor_module.hpp` |
 
-Обрабатывает ровно один sample за такт. Публикует `Event::SensorDataReady`.
+Processes exactly one sample per takt cycle. Publishes `Event::SensorDataReady`.
 
 ### ScriptEngineModule (Dynamic)
 
@@ -33,7 +33,7 @@ takt::modules::UartModule uart(0, 16);  // port 0, 16 bytes/takt
 | Type | Dynamic |
 | File | `middleware/include/takt/modules/script_engine_module.hpp` |
 
-Выполняет инструкции из очереди до опустошения. Подходит для скриптовых движков и парсеров.
+Executes instructions from a queue until empty. Suitable for script engines and parsers.
 
 ```cpp
 scriptEngine.enqueueInstruction(OP_SET_RELAY, relayId);
@@ -46,7 +46,7 @@ scriptEngine.enqueueInstruction(OP_SET_RELAY, relayId);
 | Type | Background |
 | File | `middleware/include/takt/modules/wifi_module.hpp` |
 
-Управление WiFi-соединением. Активен при reconnect или наличии событий. Публикует `Event::WiFiConnected`.
+Manages WiFi connection. Active during reconnect or when events are pending. Publishes `Event::WiFiConnected`.
 
 ### MqttModule (Background)
 
@@ -55,7 +55,7 @@ scriptEngine.enqueueInstruction(OP_SET_RELAY, relayId);
 | Type | Background |
 | File | `middleware/include/takt/modules/mqtt_module.hpp` |
 
-MQTT publish/subscribe. Активен при наличии сообщений в очереди.
+MQTT publish/subscribe. Active when messages are queued.
 
 ### BleModule (Background)
 
@@ -64,7 +64,7 @@ MQTT publish/subscribe. Активен при наличии сообщений 
 | Type | Background |
 | File | `middleware/include/takt/modules/ble_module.hpp` |
 
-Обработка BLE GAP/GATT событий. Пропускается при отсутствии событий.
+Handles BLE GAP/GATT events. Skipped when no events are pending.
 
 ## Services
 
@@ -75,9 +75,9 @@ MQTT publish/subscribe. Активен при наличии сообщений 
 | Type | Background |
 | File | `services/include/takt/services/ota_service.hpp` |
 
-WiFi и BLE OTA с поддержкой отката через FirmwareCache.
+WiFi and BLE OTA with rollback support via FirmwareCache.
 
-## Создание кастомного модуля
+## Creating a Custom Module
 
 ```cpp
 class ProcessCycleModule : public takt::IModule {
@@ -99,3 +99,7 @@ public:
     uint32_t budgetUs() const override { return 3000; }
 };
 ```
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

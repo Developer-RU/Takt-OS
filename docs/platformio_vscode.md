@@ -1,39 +1,39 @@
 # VS Code / Cursor + PlatformIO
 
-## Быстрый старт
+## Quick Start
 
-1. Установите расширение **PlatformIO IDE** (`platformio.platformio-ide`).
-2. Клонируйте репозиторий: `git clone https://github.com/Developer-RU/Takt-OS.git`
-3. Откройте `Takt-OS.code-workspace` (или папку `examples/demo_controller`).
-4. В боковой панели PlatformIO: **Build** → **Upload** → **Monitor**.
+1. Install the **PlatformIO IDE** extension (`platformio.platformio-ide`).
+2. Clone the repository: `git clone https://github.com/Developer-RU/Takt-OS.git`
+3. Open `Takt-OS.code-workspace` (or the `examples/demo_controller` folder).
+4. In the PlatformIO sidebar: **Build** → **Upload** → **Monitor**.
 
-## Файлы конфигурации
+## Configuration Files
 
-| Файл | Назначение |
-|------|------------|
+| File | Purpose |
+|------|---------|
 | `examples/demo_controller/platformio.ini` | PlatformIO: demo_controller |
 | `examples/recovery_app/platformio.ini` | PlatformIO: recovery (offset 0x110000) |
-| `.vscode/extensions.json` | Рекомендует PlatformIO IDE |
-| `.vscode/tasks.json` | Задачи ESP-IDF и PlatformIO |
+| `.vscode/extensions.json` | Recommends PlatformIO IDE |
+| `.vscode/tasks.json` | ESP-IDF and PlatformIO tasks |
 | `Takt-OS.code-workspace` | Multi-root workspace |
 
-## Порт ESP32
+## ESP32 Port
 
-Автоопределение обычно работает. Иначе в `platformio.ini`:
+Auto-detection usually works. Otherwise, in `platformio.ini`:
 
 ```ini
 upload_port = /dev/ttyUSB0
 monitor_port = /dev/ttyUSB0
 ```
 
-Windows: `COM3`. macOS: `/dev/cu.usbserial-*`. Список портов: `pio device list`.
+Windows: `COM3`. macOS: `/dev/cu.usbserial-*`. List ports: `pio device list`.
 
-Для задач VS Code **ESP-IDF: Flash** порт запрашивается при запуске.
+For the VS Code **ESP-IDF: Flash** task, the port is prompted at launch.
 
-## Сборка из терминала
+## Building from the Terminal
 
 ```bash
-# PlatformIO (путь клонирования без пробелов)
+# PlatformIO (clone path without spaces)
 cd examples/demo_controller
 pio run -t upload -t monitor
 
@@ -45,9 +45,13 @@ idf.py build
 idf.py -p PORT flash monitor
 ```
 
-## Не коммитить в git
+## Do Not Commit to Git
 
-- `build/`, `.pio/` — артефакты сборки
-- `sdkconfig`, `sdkconfig.old` — содержат пути вашей машины
+- `build/`, `.pio/` — build artifacts
+- `sdkconfig`, `sdkconfig.old` — contain machine-specific paths
 
-См. [.gitignore](../.gitignore).
+See [.gitignore](../.gitignore).
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

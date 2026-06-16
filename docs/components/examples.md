@@ -65,3 +65,7 @@ idf.py build
 
 - [developer_guide.md](../developer_guide.md)
 - [components/middleware.md](middleware.md)
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

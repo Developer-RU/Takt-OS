@@ -1,12 +1,12 @@
 # TAKT OS Event Bus
 
-## Назначение
+## Purpose
 
-Event Bus — шина событий типа publish/subscribe для слабосвязанного взаимодействия между модулями. Модули не вызывают друг друга напрямую, а публикуют события.
+The event bus is a publish/subscribe event bus for loosely coupled interaction between modules. Modules do not call each other directly; they publish events instead.
 
 ## API
 
-### Подписка
+### Subscribe
 
 ```cpp
 // C-style callback
@@ -19,54 +19,54 @@ int handle = takt::EventBus::instance().subscribe(
     &mqttModule
 );
 
-// Макрос
+// Macro
 TAKT_SUBSCRIBE(takt::Event::SensorDataReady, onSensorData, nullptr);
 ```
 
-### Публикация
+### Publish
 
 ```cpp
-// Немедленная (синхронная) доставка
+// Immediate (synchronous) delivery
 takt::EventBus::instance().publish(takt::Event::WiFiConnected);
 
-// С параметрами
+// With parameters
 takt::EventBus::instance().publish(takt::Event::OtaProgress, bytesReceived, totalBytes);
 
-// Отложенная (в конце такта)
+// Deferred (at end of takt)
 takt::EventData data{};
 data.id = takt::Event::SensorDataReady;
 data.param1 = temperature_x100;
 takt::EventBus::instance().enqueue(data);
 ```
 
-### Отписка
+### Unsubscribe
 
 ```cpp
 takt::EventBus::instance().unsubscribe(handle);
 ```
 
-## Каталог событий
+## Event catalog
 
-| Диапазон | Категория | Примеры |
-|----------|-----------|---------|
+| Range | Category | Examples |
+|-------|----------|----------|
 | 0x0001–0x00FF | System | SystemBoot, TaktOverrun, MemoryLow |
 | 0x0100–0x01FF | Connectivity | WiFiConnected, MqttConnected |
 | 0x0200–0x02FF | OTA/Recovery | OtaStart, OtaComplete, OtaRollback |
 | 0x0300–0x03FF | Application | SensorDataReady, CycleStarted |
-| 0x1000+ | User-defined | Кастомные события приложения |
+| 0x1000+ | User-defined | Application-specific custom events |
 
 ## EventData
 
 ```cpp
 struct EventData {
-    Event    id;       // Идентификатор события
-    uint32_t param1;   // Первый параметр
-    uint32_t param2;   // Второй параметр
-    uint8_t  blob[8];  // Inline payload (до 8 байт)
+    Event    id;       // Event identifier
+    uint32_t param1;   // First parameter
+    uint32_t param2;   // Second parameter
+    uint8_t  blob[8];  // Inline payload (up to 8 bytes)
 };
 ```
 
-## Доставка
+## Delivery
 
 ```mermaid
 sequenceDiagram
@@ -84,15 +84,15 @@ sequenceDiagram
     Note over Sch: Takt N continues...
 ```
 
-1. **Синхронная** (`publish`) — немедленный вызов всех подписчиков
-2. **Асинхронная** (`enqueue` + `dispatchQueued`) — доставка на границе такта
+1. **Synchronous** (`publish`) — immediate invocation of all subscribers
+2. **Asynchronous** (`enqueue` + `dispatchQueued`) — delivery at the takt boundary
 
-Рекомендация: внутри `tick()` использовать `enqueue()`, не `publish()` — это предотвращает каскадные вызовы внутри одного модуля.
+Recommendation: inside `tick()`, use `enqueue()`, not `publish()` — this prevents cascading callbacks within a single module.
 
-## Ограничения
+## Limits
 
-| Параметр | Значение |
-|----------|----------|
+| Parameter | Value |
+|-----------|-------|
 | Max subscribers | 32 |
 | Queue depth | 64 |
 | Callback type | C function pointer (no heap allocation) |
@@ -128,3 +128,7 @@ classDiagram
     EventBus *-- Subscription
     EventBus --> EventData
 ```
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

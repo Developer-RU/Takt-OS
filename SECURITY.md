@@ -14,7 +14,7 @@
 Instead, report them by one of the following:
 
 1. Open a [GitHub Security Advisory](https://github.com/Developer-RU/Takt-OS/security/advisories/new) (preferred for public repos)
-2. Email the maintainers (add your contact in repository settings)
+2. Email **p.masyukov@gmail.com** (Masyukov Pavel, project developer)
 
 Include:
 
@@ -49,3 +49,7 @@ Before deploying to critical infrastructure:
 ## Attribution
 
 If you publish research or advisories based on reports to this project, please credit TAKT OS and link to the fixed release.
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

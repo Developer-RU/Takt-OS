@@ -1,25 +1,25 @@
 # TAKT OS Kernel
 
-## Обзор
+## Overview
 
-Ядро TAKT OS — центральный оркестратор системы. Владеет планировщиком тактов, шиной событий, менеджером таймеров и подсистемами памяти. Не зависит от ESP-IDF FreeRTOS task API для выполнения прикладной логики — вся работа происходит в едином потоке тактов.
+The TAKT OS kernel is the central orchestrator of the system. It owns the takt scheduler, event bus, timer manager, and memory subsystems. It does not depend on the ESP-IDF FreeRTOS task API for application logic — all work runs in a single takt loop.
 
-## Компоненты ядра
+## Kernel components
 
-| Компонент | Файл | Назначение |
-|-----------|------|------------|
-| `Kernel` | `kernel.hpp` | Точка входа, lifecycle, диагностика |
-| `Scheduler` | `scheduler.hpp` | Цикл тактов, регистрация модулей |
-| `EventBus` | `event_bus.hpp` | Pub/Sub шина событий |
-| `TimerManager` | `timer_manager.hpp` | Программные таймеры |
-| `Logger` | `logger.hpp` | Уровневое логирование |
-| `Diagnostics` | `diagnostics.hpp` | Профилирование, heap, stack |
-| `StorageManager` | `storage_manager.hpp` | Прямой доступ к Flash |
-| `CacheManager` | `cache_manager.hpp` | LRU-кэш поверх Flash |
+| Component | File | Purpose |
+|-----------|------|---------|
+| `Kernel` | `kernel.hpp` | Entry point, lifecycle, diagnostics |
+| `Scheduler` | `scheduler.hpp` | Takt loop, module registration |
+| `EventBus` | `event_bus.hpp` | Pub/Sub event bus |
+| `TimerManager` | `timer_manager.hpp` | Software timers |
+| `Logger` | `logger.hpp` | Level-based logging |
+| `Diagnostics` | `diagnostics.hpp` | Profiling, heap, stack |
+| `StorageManager` | `storage_manager.hpp` | Direct Flash access |
+| `CacheManager` | `cache_manager.hpp` | LRU cache over Flash |
 | `FirmwareCache` | `firmware_cache.hpp` | Dual-bank OTA |
-| `NvsManager` | `nvs_manager.hpp` | Key-value хранилище |
+| `NvsManager` | `nvs_manager.hpp` | Key-value storage |
 
-## Жизненный цикл
+## Lifecycle
 
 ```mermaid
 stateDiagram-v2
@@ -35,7 +35,7 @@ stateDiagram-v2
 
 ## API
 
-### Инициализация
+### Initialization
 
 ```cpp
 auto& kernel = takt::Kernel::instance();
@@ -44,14 +44,14 @@ auto& scheduler = kernel.scheduler();
 scheduler.registerModule(&uartModule);
 scheduler.registerModule(&sensorModule);
 
-scheduler.setTaktPeriodMs(1);      // 1 мс между тактами
-scheduler.setTaktBudgetUs(5000);   // 5 мс максимум на такт
+scheduler.setTaktPeriodMs(1);      // 1 ms between takts
+scheduler.setTaktBudgetUs(5000);   // 5 ms maximum per takt
 
 kernel.boot();  // init NVS, init modules, publish SystemReady
-kernel.run();   // бесконечный цикл тактов
+kernel.run();   // infinite takt loop
 ```
 
-### Диагностика
+### Diagnostics
 
 ```cpp
 kernel.printStatistics();
@@ -65,9 +65,9 @@ kernel.printStatistics();
 //   ...
 ```
 
-## Модель выполнения
+## Execution model
 
-Ядро работает в контексте ESP-IDF `app_main()` (или host `main()`). Между тактами на ESP32 вызывается `vTaskDelay()` для отдачи CPU задаче IDLE — это единственная точка взаимодействия с FreeRTOS.
+The kernel runs in the context of ESP-IDF `app_main()` (or host `main()`). Between takts on ESP32, `vTaskDelay()` yields the CPU to the IDLE task — this is the only interaction point with FreeRTOS.
 
 ```
 app_main()
@@ -81,21 +81,21 @@ app_main()
             └─ loop:
                  ├─ TimerManager::tick(deltaMs)
                  ├─ EventBus::dispatchQueued()
-                 ├─ IModule::tick() × N  (последовательно)
+                 ├─ IModule::tick() × N  (sequential)
                  └─ overrun detection
 ```
 
-## Конфигурация
+## Configuration
 
-| Параметр | По умолчанию | Описание |
-|----------|-------------|----------|
-| `kMaxModules` | 48 | Макс. зарегистрированных модулей |
-| `kMaxTimers` | 32 | Макс. активных таймеров |
-| `kMaxEventSubscribers` | 32 | Макс. подписчиков на EventBus |
-| `kEventQueueDepth` | 64 | Глубина очереди отложенных событий |
-| `TAKT_LOG_LEVEL` | Debug | Уровень логирования |
+| Parameter | Default | Description |
+|-----------|---------|-------------|
+| `kMaxModules` | 48 | Max registered modules |
+| `kMaxTimers` | 32 | Max active timers |
+| `kMaxEventSubscribers` | 32 | Max EventBus subscribers |
+| `kEventQueueDepth` | 64 | Deferred event queue depth |
+| `TAKT_LOG_LEVEL` | Debug | Logging level |
 
-## UML Class Diagram
+## UML class diagram
 
 ```mermaid
 classDiagram
@@ -141,3 +141,7 @@ classDiagram
     Kernel --> EventBus
     Kernel --> TimerManager
 ```
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

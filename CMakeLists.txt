@@ -1,4 +1,7 @@
 # TAKT OS — Root CMake Project
+# Copyright 2024-2026 Masyukov Pavel <p.masyukov@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+# https://github.com/Developer-RU/Takt-OS
 # Requires ESP-IDF >= 5.0 for ESP32 targets
 cmake_minimum_required(VERSION 3.16)
 

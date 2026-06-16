@@ -1,3 +1,8 @@
+// Copyright 2024-2026 Masyukov Pavel <p.masyukov@gmail.com>
+// SPDX-License-Identifier: Apache-2.0
+//
+// TAKT OS — https://github.com/Developer-RU/Takt-OS
+
 #include "takt/recovery_manager.hpp"
 #include "takt/recovery_transports.hpp"
 #include "takt/firmware_cache.hpp"

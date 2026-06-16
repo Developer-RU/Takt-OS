@@ -1,15 +1,15 @@
-# Исходники GitHub Wiki
+# GitHub Wiki sources
 
-Вики TAKT OS — **только навигация на русском**. Тексты документации лежат в [`docs/`](../) репозитория и не дублируются здесь.
+The TAKT OS wiki is **navigation only**. Documentation text lives in [`docs/`](../) in the repository and is not duplicated here.
 
-## Страницы
+## Pages
 
-| Файл | Назначение |
-|------|------------|
-| [Home.md](Home.md) | Главная вики (оглавление со ссылками на `docs/`) |
-| [_Sidebar.md](_Sidebar.md) | Боковое меню GitHub Wiki |
+| File | Purpose |
+|------|---------|
+| [Home.md](Home.md) | Wiki home (index with links to `docs/`) |
+| [_Sidebar.md](_Sidebar.md) | GitHub Wiki sidebar menu |
 
-## Импорт на GitHub
+## Import to GitHub
 
 ```bash
 git clone https://github.com/Developer-RU/Takt-OS.wiki.git
@@ -17,12 +17,16 @@ cp docs/wiki/Home.md Takt-OS.wiki/
 cp docs/wiki/_Sidebar.md Takt-OS.wiki/
 cd Takt-OS.wiki
 git add Home.md _Sidebar.md
-git commit -m "Вики: навигация на русском, без дублирования docs"
+git commit -m "Wiki: navigation only, no docs duplication"
 git push
 ```
 
-> Сначала включите Wiki в настройках репозитория и создайте первую страницу, если репозиторий `.wiki` ещё не существует.
+> Enable Wiki in repository settings and create the first page if the `.wiki` repository does not exist yet.
 
-## Обновление
+## Updates
 
-При добавлении нового файла в `docs/` достаточно обновить таблицы в `Home.md` и при необходимости `_Sidebar.md`. Содержимое статей правится **только** в `docs/`.
+When adding a new file under `docs/`, update the tables in `Home.md` and `_Sidebar.md` if needed. Article content is edited **only** in `docs/`.
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

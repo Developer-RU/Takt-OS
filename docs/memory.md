@@ -1,10 +1,10 @@
 # TAKT OS Memory Management
 
-## Философия
+## Philosophy
 
-TAKT OS **не использует** SPIFFS/LittleFS по умолчанию. Свободная Flash-память используется как произвольное байтовое хранилище через `StorageManager`. Файловые системы подключаются только если того требует конкретное приложение.
+TAKT OS **does not use** SPIFFS/LittleFS by default. Free Flash space is used as arbitrary byte storage through `StorageManager`. File systems are added only when a specific application requires them.
 
-## Компоненты
+## Components
 
 ```mermaid
 graph TD
@@ -19,7 +19,7 @@ graph TD
 
 ## StorageManager
 
-Прямой доступ к flash-памяти через абстракцию `FlashBackend`.
+Direct access to flash memory through the `FlashBackend` abstraction.
 
 ### FlashBackend
 
@@ -29,50 +29,54 @@ struct FlashBackend {
     std::function<int(uint32_t offset, const void* buf, size_t len)> write;
     std::function<int(uint32_t offset, size_t len)> erase;
     uint32_t totalSize;
-    uint32_t sectorSize;  // 4096 для ESP32
+    uint32_t sectorSize;  // 4096 on ESP32
 };
 ```
 
-### Именованные регионы
+### Named regions
 
 ```cpp
 auto& storage = takt::StorageManager::instance();
 storage.init(flashBackend);
 
-storage.registerRegion("telemetry", 0x360000, 256 * 1024);
-storage.registerRegion("config",    0x3A0000, 64 * 1024);
-storage.registerRegion("logs",      0x3B0000, 128 * 1024);
+storage.registerRegion("telemetry", 0x3D0000, 96 * 1024);
+storage.registerRegion("config",    0x3E8000, 32 * 1024);
+storage.registerRegion("logs",      0x3F0000, 64 * 1024);
 
-// Чтение/запись:
+// Read/write:
 uint8_t buf[64];
-storage.read(0x360000, buf, sizeof(buf));
-storage.write(0x360000, buf, sizeof(buf));  // auto erase-before-write
+storage.read(0x3D0000, buf, sizeof(buf));
+storage.write(0x3D0000, buf, sizeof(buf));  // auto erase-before-write
 ```
 
-### Карта регионов (по умолчанию)
+### Default region map
 
-| Регион | Offset | Size | Назначение |
-|--------|--------|------|------------|
-| `ota_a` | 0x050000 | 1536 KB | App Slot A |
-| `ota_b` | 0x1D0000 | 1536 KB | App Slot B |
-| `nvs` | 0x350000 | 64 KB | NVS key-value |
-| `storage` | 0x360000 | 640 KB | Произвольные данные |
+Offsets match `examples/demo_controller/partitions.csv`:
+
+| Region | Offset | Size | Purpose |
+|--------|--------|------|---------|
+| `factory` | 0x010000 | 1024 KB | Factory app image |
+| `recovery` | 0x110000 | 256 KB | Recovery firmware |
+| `ota_a` | 0x150000 | 1280 KB | App Slot A |
+| `ota_b` | 0x290000 | 1280 KB | App Slot B |
+| `nvs` | 0x009000 | 24 KB | NVS key-value |
+| `storage` | 0x3D0000 | 192 KB | Arbitrary data |
 
 ## CacheManager
 
-LRU-кэш поверх flash для снижения wear и ускорения доступа.
+LRU cache over flash to reduce wear and speed up access.
 
 ```cpp
 uint8_t cachePool[16 * 1024];
 takt::CacheManager cache(cachePool, sizeof(cachePool), 256);
 
-cache.write(0x360000, data, len);   // write to cache (dirty)
-cache.read(0x360000, buf, len);       // read through cache
+cache.write(0x3D0000, data, len);   // write to cache (dirty)
+cache.read(0x3D0000, buf, len);       // read through cache
 cache.flush();                         // write-back dirty lines
 ```
 
-| Параметр | Значение |
-|----------|----------|
+| Parameter | Value |
+|-----------|-------|
 | Max lines | 64 |
 | Eviction | LRU |
 | Policy | Write-back |
@@ -80,7 +84,7 @@ cache.flush();                         // write-back dirty lines
 
 ## FirmwareCache
 
-Dual-bank OTA с атомарным переключением.
+Dual-bank OTA with atomic slot switching.
 
 ### FirmwareHeader
 
@@ -96,11 +100,11 @@ struct FirmwareHeader {
 };
 ```
 
-### OTA Flow
+### OTA flow
 
 ```cpp
 auto& fc = takt::FirmwareCache::instance();
-fc.init(0x050000, 0x1D0000, 0x180000);
+fc.init(0x150000, 0x290000, 0x140000);
 
 fc.beginWrite(imageSize, 0x00010000);
 fc.writeChunk(data, len);  // repeat
@@ -110,15 +114,15 @@ fc.activateSlot(fc.inactiveSlot());
 
 ## NvsManager
 
-Key-value хранилище с защитой от повреждений.
+Key-value storage with corruption protection.
 
-### Возможности
+### Features
 
-- Типизированные значения: blob, u8, u16, u32, string
-- Версионирование каждого ключа
-- CRC32 на каждую запись
-- Резервное копирование (backup sector)
-- Восстановление из backup при corruption
+- Typed values: blob, u8, u16, u32, string
+- Per-key versioning
+- CRC32 on every entry
+- Backup (backup sector)
+- Restore from backup on corruption
 
 ### API
 
@@ -139,7 +143,7 @@ nvs.verifyIntegrity();
 nvs.backup();
 ```
 
-### Защита от повреждений
+### Corruption protection
 
 ```
 writeEntry(key, data, len, version):
@@ -196,3 +200,7 @@ classDiagram
     CacheManager --> StorageManager
     FirmwareCache --> StorageManager
 ```
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

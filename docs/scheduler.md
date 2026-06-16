@@ -1,10 +1,10 @@
 # TAKT OS Scheduler
 
-## Концепция
+## Concept
 
-Scheduler — сердце TAKT OS. Каждый вызов `runTakt()` — один такт: последовательный обход всех зарегистрированных модулей с измерением времени и детекцией overrun.
+The scheduler is the heart of TAKT OS. Each call to `runTakt()` is one takt: a sequential pass over all registered modules with timing measurement and overrun detection.
 
-## Алгоритм такта
+## Takt algorithm
 
 ```
 runTakt():
@@ -23,15 +23,15 @@ runTakt():
   7. if taktElapsed > taktBudgetUs: publish TaktOverrun event
 ```
 
-## Политика диспетчеризации
+## Dispatch policy
 
-| ModuleType | Условие вызова | При idle |
-|------------|----------------|----------|
-| `Static` | Всегда | tick() вызывается |
-| `Dynamic` | Всегда | tick() вызывается |
-| `Background` | `hasWork() == true` | Пропуск, skipCount++ |
+| ModuleType | Invocation condition | When idle |
+|------------|----------------------|-----------|
+| `Static` | Always | `tick()` is called |
+| `Dynamic` | Always | `tick()` is called |
+| `Background` | `hasWork() == true` | Skipped, `skipCount++` |
 
-## Регистрация модулей
+## Module registration
 
 ```cpp
 takt::Scheduler scheduler;
@@ -44,49 +44,49 @@ auto uartId = scheduler.registerModule(&uart);    // ModuleId = 0
 auto sensId = scheduler.registerModule(&sensor);  // ModuleId = 1
 auto wifiId = scheduler.registerModule(&wifi);    // ModuleId = 2
 
-scheduler.initAll();  // вызов init() для каждого модуля
+scheduler.initAll();  // call init() for each module
 ```
 
-Порядок регистрации = порядок вызова в такте. Для промышленных систем рекомендуется:
+Registration order equals invocation order within a takt. For industrial systems, the recommended order is:
 
-1. Критичные по времени (Sensor, GPIO) — первыми
-2. Коммуникационные (UART, Modbus) — в середине
-3. Сетевые (WiFi, MQTT, BLE) — в конце
-4. Фоновые (OTA, File) — последними
+1. Time-critical modules (Sensor, GPIO) — first
+2. Communication (UART, Modbus) — middle
+3. Network (WiFi, MQTT, BLE) — near the end
+4. Background (OTA, File) — last
 
-## Статистика
+## Statistics
 
 ### SchedulerStats
 
-| Поле | Тип | Описание |
-|------|-----|----------|
-| `totalTakts` | uint64 | Общее число тактов |
-| `totalTaktUs` | uint64 | Суммарное время всех тактов |
-| `maxTaktUs` | uint64 | Максимальная длительность такта |
-| `lastTaktUs` | uint64 | Длительность последнего такта |
-| `overrunCount` | uint32 | Число превышений taktBudgetUs |
-| `registeredModules` | uint32 | Число модулей |
+| Field | Type | Description |
+|-------|------|-------------|
+| `totalTakts` | uint64 | Total number of takts |
+| `totalTaktUs` | uint64 | Cumulative time of all takts |
+| `maxTaktUs` | uint64 | Maximum takt duration |
+| `lastTaktUs` | uint64 | Duration of the last takt |
+| `overrunCount` | uint32 | Number of `taktBudgetUs` violations |
+| `registeredModules` | uint32 | Number of modules |
 
 ### ModuleStats
 
-| Поле | Тип | Описание |
-|------|-----|----------|
-| `tickCount` | uint64 | Сколько раз вызван tick() |
-| `totalUs` | uint64 | Суммарное время |
-| `maxUs` | uint64 | Максимальное время одного tick() |
-| `lastUs` | uint64 | Время последнего tick() |
-| `overrunCount` | uint32 | Превышения budgetUs() |
-| `skipCount` | uint32 | Пропуски (background idle) |
+| Field | Type | Description |
+|-------|------|-------------|
+| `tickCount` | uint64 | How many times `tick()` was called |
+| `totalUs` | uint64 | Cumulative time |
+| `maxUs` | uint64 | Maximum single `tick()` duration |
+| `lastUs` | uint64 | Duration of the last `tick()` |
+| `overrunCount` | uint32 | `budgetUs()` violations |
+| `skipCount` | uint32 | Skips (background idle) |
 
-## Конфигурация бюджета
+## Budget configuration
 
 ```cpp
-scheduler.setTaktPeriodMs(1);       // Период такта: 1 мс
-scheduler.setTaktBudgetUs(5000);    // Бюджет: 5 мс (для demo controller)
+scheduler.setTaktPeriodMs(1);       // Takt period: 1 ms
+scheduler.setTaktBudgetUs(5000);    // Budget: 5 ms (for demo controller)
 
-// Per-module budget (статические модули):
+// Per-module budget (static modules):
 class UartModule : public IModule {
-    uint32_t budgetUs() const override { return 500; }  // 500 мкс
+    uint32_t budgetUs() const override { return 500; }  // 500 µs
 };
 ```
 
@@ -129,10 +129,14 @@ classDiagram
     ModuleEntry *-- ModuleStats
 ```
 
-## Рекомендации
+## Recommendations
 
-1. **Период такта 1 мс** — оптимален для demo controller и IoT-шлюзов
-2. **taktBudgetUs ≤ 80% периода** — оставлять запас для FreeRTOS IDLE
-3. **Статические модули** — всегда задавать `budgetUs()`
-4. **Динамические модули** — ограничивать работу внутри tick(), не блокировать
-5. **Фоновые модули** — корректно реализовать `hasWork()`
+1. **1 ms takt period** — optimal for the demo controller and IoT gateways
+2. **`taktBudgetUs` ≤ 80% of the period** — leave headroom for the FreeRTOS IDLE task
+3. **Static modules** — always set `budgetUs()`
+4. **Dynamic modules** — bound work inside `tick()`, do not block
+5. **Background modules** — implement `hasWork()` correctly
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

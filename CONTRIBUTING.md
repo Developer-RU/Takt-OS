@@ -2,6 +2,8 @@
 
 Thank you for your interest in contributing. This project is open source under the [Apache License 2.0](LICENSE).
 
+**Maintainer:** Masyukov Pavel · [p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)
+
 ## Before you start
 
 1. Read [docs/architecture.md](docs/architecture.md) and [docs/developer_guide.md](docs/developer_guide.md).
@@ -94,3 +96,7 @@ See [SECURITY.md](SECURITY.md) for responsible disclosure.
 ## Code of conduct
 
 This project follows the [Contributor Covenant](CODE_OF_CONDUCT.md). Be respectful and constructive.
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

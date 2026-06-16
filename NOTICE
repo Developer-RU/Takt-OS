@@ -1,7 +1,11 @@
 TAKT OS
-Copyright 2024-2026 TAKT OS Contributors
+Copyright 2024-2026 Masyukov Pavel <p.masyukov@gmail.com>
 
-This product includes software developed as part of the TAKT OS project.
+Licensed under the Apache License, Version 2.0.
+See LICENSE for the full license text.
+
+Project developer and maintainer: Masyukov Pavel
+Email: p.masyukov@gmail.com
 Source: https://github.com/Developer-RU/Takt-OS
 
 ================================================================================
@@ -79,4 +83,4 @@ If you copy, fork, or embed TAKT OS code in your product:
 Example attribution in documentation or About screen:
 
   "This firmware includes TAKT OS (https://github.com/Developer-RU/Takt-OS),
-   Copyright TAKT OS Contributors, licensed under Apache 2.0."
+   Copyright 2024-2026 Masyukov Pavel, licensed under Apache License 2.0."

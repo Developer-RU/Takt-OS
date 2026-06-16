@@ -1,8 +1,8 @@
 # TAKT OS Timer Manager
 
-## Назначение
+## Purpose
 
-TimerManager — программные таймеры, привязанные к циклу тактов. Разрешение таймера равно периоду такта (`taktPeriodMs`).
+TimerManager provides software timers tied to the takt loop. Timer resolution equals the takt period (`taktPeriodMs`).
 
 ## API
 
@@ -27,7 +27,7 @@ telemetry.reset();          // reset elapsed, keep active
 telemetry.setInterval(10000);
 ```
 
-## Принцип работы
+## How it works
 
 ```mermaid
 sequenceDiagram
@@ -49,14 +49,14 @@ sequenceDiagram
     end
 ```
 
-1. `Scheduler::runTakt()` вызывает `TimerManager::tick(taktPeriodMs_)`
-2. TimerManager продвигает все активные таймеры на `deltaMs`
-3. При `elapsedMs >= intervalMs` — вызывается callback
-4. One-shot: таймер деактивируется; Repeat: `elapsedMs` сбрасывается
+1. `Scheduler::runTakt()` calls `TimerManager::tick(taktPeriodMs_)`
+2. TimerManager advances all active timers by `deltaMs`
+3. When `elapsedMs >= intervalMs`, the callback runs
+4. One-shot: timer is deactivated; repeat: `elapsedMs` is reset
 
-## Регистрация
+## Registration
 
-Таймер автоматически регистрируется при вызове `onTimeout()`:
+A timer is registered automatically when `onTimeout()` is called:
 
 ```cpp
 void Timer::onTimeout(TimerCallback callback) {
@@ -65,18 +65,18 @@ void Timer::onTimeout(TimerCallback callback) {
 }
 ```
 
-При уничтожении (`~Timer()`) — автоматическая дерегистрация.
+On destruction (`~Timer()`), the timer is unregistered automatically.
 
-## Ограничения
+## Limits
 
-| Параметр | Значение |
-|----------|----------|
+| Parameter | Value |
+|-----------|-------|
 | Max timers | 32 |
 | Min resolution | = taktPeriodMs (default 1 ms) |
 | Callback | `std::function<void()>` |
 | Thread safety | Single-threaded (takt loop) |
 
-## Примеры использования
+## Usage examples
 
 ### Watchdog feed
 
@@ -88,7 +88,7 @@ wdtTimer.onTimeout([]() {
 wdtTimer.start();
 ```
 
-### Периодическая статистика
+### Periodic statistics
 
 ```cpp
 takt::Timer statsTimer(30000, true);
@@ -101,7 +101,7 @@ statsTimer.start();
 ### Reconnect backoff
 
 ```cpp
-// В WiFiModule:
+// In WiFiModule:
 reconnectTimer_.setInterval(5000);
 reconnectTimer_.setRepeat(true);
 reconnectTimer_.onTimeout([this]() {
@@ -136,3 +136,7 @@ classDiagram
 
     TimerManager o-- Timer
 ```
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

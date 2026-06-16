@@ -1,61 +1,63 @@
-# Документация TAKT OS
+# TAKT OS Documentation
 
-Единый источник документации проекта. **GitHub Wiki** ([`wiki/Home.md`](wiki/Home.md)) — только русскоязычное оглавление со ссылками сюда, без дублирования текстов.
+> **Developer:** Masyukov Pavel · [p.masyukov@gmail.com](mailto:p.masyukov@gmail.com) · **License:** [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE)
 
-## Начало работы
+Single source of project documentation. **GitHub Wiki** ([`wiki/Home.md`](wiki/Home.md)) is navigation-only with links here — no duplicate content.
 
-| Документ | Описание |
-|----------|----------|
-| [developer_guide.md](developer_guide.md) | Первый модуль, регистрация, сборка |
+## Getting started
+
+| Document | Description |
+|----------|-------------|
+| [developer_guide.md](developer_guide.md) | First module, registration, build |
 | [platformio_vscode.md](platformio_vscode.md) | VS Code / Cursor + PlatformIO |
-| [faq.md](faq.md) | Частые вопросы |
+| [faq.md](faq.md) | Frequently asked questions |
 
-## Архитектура
+## Architecture
 
-| Документ | Описание |
-|----------|----------|
-| [architecture.md](architecture.md) | Слои, такт, карта flash |
-| [scheduler.md](scheduler.md) | Цикл такта, overrun, типы модулей |
-| [event_bus.md](event_bus.md) | Шина событий |
-| [timer_manager.md](timer_manager.md) | Программные таймеры |
-| [memory.md](memory.md) | NVS, storage, кэш прошивки |
-| [uml/diagrams.md](uml/diagrams.md) | UML-диаграммы (Mermaid) |
-| [implementation_plan.md](implementation_plan.md) | План реализации по этапам |
+| Document | Description |
+|----------|-------------|
+| [architecture.md](architecture.md) | Layers, takt, flash map |
+| [scheduler.md](scheduler.md) | Takt cycle, overrun, module types |
+| [event_bus.md](event_bus.md) | Event bus |
+| [timer_manager.md](timer_manager.md) | Software timers |
+| [memory.md](memory.md) | NVS, storage, firmware cache |
+| [uml/diagrams.md](uml/diagrams.md) | UML diagrams (Mermaid) |
+| [implementation_plan.md](implementation_plan.md) | Phased implementation plan |
 
-## Загрузка и восстановление
+## Boot and recovery
 
-| Документ | Описание |
-|----------|----------|
-| [bootloader.md](bootloader.md) | Режимы загрузки, валидация |
-| [recovery.md](recovery.md) | DFU, откат |
+| Document | Description |
+|----------|-------------|
+| [bootloader.md](bootloader.md) | Boot modes, validation |
+| [recovery.md](recovery.md) | DFU, rollback |
 
-## Справочник кода
+## Code reference
 
-| Документ | Описание |
-|----------|----------|
-| [api_reference.md](api_reference.md) | Таблицы API |
-| [source_tree.md](source_tree.md) | Карта исходных файлов |
-| [components/kernel.md](components/kernel.md) | Слой kernel |
-| [components/drivers.md](components/drivers.md) | Слой drivers |
+| Document | Description |
+|----------|-------------|
+| [api_reference.md](api_reference.md) | API tables |
+| [source_tree.md](source_tree.md) | Source file map |
+| [components/kernel.md](components/kernel.md) | Kernel layer |
+| [components/drivers.md](components/drivers.md) | Drivers layer |
 | [components/middleware.md](components/middleware.md) | Middleware |
 | [components/services.md](components/services.md) | Services |
 | [components/recovery.md](components/recovery.md) | Recovery |
-| [components/takt_boot.md](components/takt_boot.md) | Политика загрузки |
-| [components/examples.md](components/examples.md) | Примеры прошивок |
-| [components/sdk_lite.md](components/sdk_lite.md) | SDK и Lite |
+| [components/takt_boot.md](components/takt_boot.md) | Boot policy |
+| [components/examples.md](components/examples.md) | Firmware examples |
+| [components/sdk_lite.md](components/sdk_lite.md) | SDK and Lite |
 
-## Качество и сообщество
+## Quality and community
 
-| Документ | Описание |
-|----------|----------|
-| [certification.md](certification.md) | Матрица тестов |
-| [licensing.md](licensing.md) | Лицензия и атрибуция |
-| [modules.md](modules.md) | Каталог модулей |
-| [../SECURITY.md](../SECURITY.md) | Безопасность |
-| [../CONTRIBUTING.md](../CONTRIBUTING.md) | Участие в разработке |
-| [../CHANGELOG.md](../CHANGELOG.md) | История версий |
+| Document | Description |
+|----------|-------------|
+| [certification.md](certification.md) | Test matrix |
+| [licensing.md](licensing.md) | License and attribution |
+| [modules.md](modules.md) | Module catalog |
+| [../SECURITY.md](../SECURITY.md) | Security |
+| [../CONTRIBUTING.md](../CONTRIBUTING.md) | Contributing |
+| [../CHANGELOG.md](../CHANGELOG.md) | Version history |
 
-## Сборка после клонирования
+## Build after cloning
 
 ```bash
 git clone https://github.com/Developer-RU/Takt-OS.git
@@ -64,12 +66,16 @@ source $IDF_PATH/export.sh
 idf.py set-target esp32 && idf.py build
 ```
 
-Пути в CMake **относительные**. Не коммитьте `build/`, `.pio/`, `sdkconfig`.
+CMake paths are **relative**. Do not commit `build/`, `.pio/`, or `sdkconfig`.
 
-## Метафайлы репозитория
+## Repository meta files
 
-| Файл | Назначение |
-|------|------------|
+| File | Purpose |
+|------|---------|
 | [../LICENSE](../LICENSE) | Apache 2.0 |
-| [../NOTICE](../NOTICE) | Сторонние компоненты |
-| [../CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) | Кодекс поведения |
+| [../NOTICE](../NOTICE) | Third-party components |
+| [../CODE_OF_CONDUCT.md](../CODE_OF_CONDUCT.md) | Code of conduct |
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

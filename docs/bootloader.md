@@ -1,21 +1,21 @@
 # TAKT OS Bootloader
 
-## Назначение
+## Purpose
 
-Bootloader — минимальная прошивка, работающая **независимо** от основного приложения. Запускается ESP-IDF second-stage bootloader и отвечает за выбор режима загрузки, валидацию прошивки и переход в нужный раздел.
+The bootloader is a minimal firmware image that runs **independently** of the main application. It is launched by the ESP-IDF second-stage bootloader and is responsible for selecting the boot mode, validating firmware, and jumping to the correct partition.
 
-## Функции
+## Functions
 
-| Функция | Описание |
-|---------|----------|
-| Запуск системы | Определение boot mode, переход к прошивке |
-| Выбор режима загрузки | GPIO, RTC memory, boot counter |
-| Проверка валидности | Magic, CRC32, size проверка FirmwareHeader |
-| OTA Recovery | Активация нового слота после OTA |
-| BLE Recovery | Переход в recovery partition |
-| Аварийное восстановление | UART console при полной порче прошивки |
+| Function | Description |
+|----------|-------------|
+| System startup | Determine boot mode, jump to firmware |
+| Boot mode selection | GPIO, RTC memory, boot counter |
+| Validity check | Magic, CRC32, size check of `FirmwareHeader` |
+| OTA recovery | Activate new slot after OTA |
+| BLE recovery | Jump to recovery partition |
+| Emergency recovery | UART console when firmware is fully corrupted |
 
-## Режимы загрузки
+## Boot modes
 
 ```mermaid
 stateDiagram-v2
@@ -34,34 +34,34 @@ stateDiagram-v2
     EraseNVS --> JumpRecovery
 ```
 
-## BootConfig (RTC Memory)
+## BootConfig (RTC memory)
 
-Структура сохраняется в `RTC_NOINIT_ATTR` — переживает soft reset, но не power cycle:
+The structure is stored in `RTC_NOINIT_ATTR` — it survives soft reset but not power cycle:
 
 ```cpp
 struct BootConfig {
     uint32_t magic;       // 0xB007C0DE
     BootMode mode;        // Normal / Recovery / OtaPending / ...
-    uint8_t  bootCount;   // Инкремент при каждой загрузке
-    uint8_t  otaSlot;     // Целевой слот OTA
-    uint32_t crc32;       // CRC структуры
+    uint8_t  bootCount;   // Incremented on every boot
+    uint8_t  otaSlot;     // Target OTA slot
+    uint32_t crc32;       // Structure CRC
 };
 ```
 
-### Логика bootCount
+### bootCount logic
 
-1. При каждой загрузке `bootCount++`
-2. Если `bootCount > 3` — принудительный переход в Recovery (защита от boot loop)
-3. При успешном старте приложения вызывается `Bootloader::markBootSuccessful()` → `bootCount = 0`
+1. On every boot, `bootCount++`
+2. If `bootCount > 3` — forced transition to Recovery (boot loop protection)
+3. On successful application start, call `Bootloader::markBootSuccessful()` → `bootCount = 0`
 
-## GPIO Boot Pin
+## GPIO boot pin
 
-| Pin | Состояние | Действие |
-|-----|-----------|----------|
-| GPIO0 | LOW при reset | Recovery mode |
+| Pin | State | Action |
+|-----|-------|--------|
+| GPIO0 | LOW on reset | Recovery mode |
 | GPIO0 | HIGH | Normal boot |
 
-## Валидация прошивки
+## Firmware validation
 
 ```
 validateFirmware(slot):
@@ -78,10 +78,10 @@ validateFirmware(slot):
 ```cpp
 #include "takt/bootloader.hpp"
 
-// В app_main после успешного старта:
+// In app_main after successful startup:
 takt::boot::Bootloader::markBootSuccessful();
 
-// Принудительный переход в recovery:
+// Force transition to recovery:
 BootConfig cfg{};
 Bootloader::loadBootConfig(cfg);
 cfg.mode = BootMode::Recovery;
@@ -89,13 +89,13 @@ Bootloader::saveBootConfig(cfg);
 esp_restart();
 ```
 
-## Независимость от основной прошивки
+## Independence from main firmware
 
-Bootloader располагается в отдельном разделе flash (`0x001000`, 28 KB). Даже при полном повреждении App Slot A и B:
+The bootloader resides in a separate flash partition (`0x001000`, 28 KB). Even when App Slot A and B are fully corrupted:
 
-1. `bootCount` превысит порог → Recovery
-2. Если Recovery валиден → DFU доступен
-3. Если Recovery повреждён → Emergency UART console
+1. `bootCount` exceeds the threshold → Recovery
+2. If Recovery is valid → DFU is available
+3. If Recovery is corrupted → Emergency UART console
 
 ## UML
 
@@ -133,3 +133,7 @@ classDiagram
     Bootloader --> BootConfig
     Bootloader --> BootMode
 ```
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

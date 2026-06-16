@@ -15,7 +15,7 @@ Example `README` snippet:
 ## Third-party software
 
 This firmware is based on [TAKT OS](https://github.com/Developer-RU/Takt-OS),
-Copyright TAKT OS Contributors, Apache License 2.0.
+Copyright 2024-2026 Masyukov Pavel, Apache License 2.0.
 See NOTICE for Espressif ESP-IDF and other components.
 ```
 
@@ -30,17 +30,17 @@ See NOTICE for Espressif ESP-IDF and other components.
 For **new** files:
 
 ```cpp
-// Copyright 2026 TAKT OS Contributors
+// Copyright 2024-2026 Masyukov Pavel <p.masyukov@gmail.com>
 // SPDX-License-Identifier: Apache-2.0
 //
-// Based on TAKT OS — https://github.com/Developer-RU/Takt-OS
+// TAKT OS — https://github.com/Developer-RU/Takt-OS
 ```
 
 For **adapted** third-party files, retain original copyright and add:
 
 ```cpp
 // Portions Copyright … Original Project
-// Modifications Copyright 2026 TAKT OS Contributors
+// Modifications Copyright 2024-2026 Masyukov Pavel <p.masyukov@gmail.com>
 // SPDX-License-Identifier: Apache-2.0 (or original license if required)
 ```
 
@@ -54,5 +54,9 @@ Apache 2.0 does not grant trademark rights to "TAKT OS".
 
 ## More
 
-- [Wiki: License and Attribution](wiki/License-and-Attribution.md)
+- [Licensing guide](licensing.md) (this document)
 - [Apache 2.0 FAQ](https://www.apache.org/foundation/license-faq.html)
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

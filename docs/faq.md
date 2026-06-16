@@ -1,41 +1,45 @@
-# Частые вопросы (FAQ)
+# Frequently Asked Questions (FAQ)
 
-## Зачем TAKT OS, если в ESP-IDF уже есть FreeRTOS?
+## Why TAKT OS when ESP-IDF already has FreeRTOS?
 
-ESP-IDF — это **платформа** (драйверы, WiFi, flash, OTA). TAKT OS — **модель планирования приложения**: предсказуемый цикл сканирования, как в ПЛК. FreeRTOS остаётся для системных задач WiFi/TCP.
+ESP-IDF is the **platform** (drivers, WiFi, flash, OTA). TAKT OS is the **application scheduling model**: a predictable scan cycle, like a PLC. FreeRTOS remains for system tasks such as WiFi/TCP.
 
-## Можно ли совмещать задачи FreeRTOS и TAKT OS?
+## Can FreeRTOS tasks and TAKT OS be used together?
 
-Да. TAKT OS работает в `app_main`. Задачи ESP-IDF крутятся под капотом. Не блокируйте тактовый цикл надолго.
+Yes. TAKT OS runs in `app_main`. ESP-IDF tasks run under the hood. Do not block the takt loop for long periods.
 
-## Что такое overrun такта?
+## What is a takt overrun?
 
-Планировщик измеряет длительность такта. Если она превышает `setTaktBudgetUs()`, пишется предупреждение и публикуется `Event::TaktOverrun`.
+The scheduler measures takt duration. If it exceeds `setTaktBudgetUs()`, a warning is logged and `Event::TaktOverrun` is published.
 
-## Почему раздел recovery имеет subtype `test`?
+## Why does the recovery partition have subtype `test`?
 
-В загрузчике ESP-IDF может быть только **один** раздел с subtype `factory`. Второй `factory` перезаписывал указатель на основное приложение. Recovery использует subtype `test`.
+The ESP-IDF bootloader allows only **one** partition with subtype `factory`. A second `factory` partition overwrote the pointer to the main application. Recovery uses subtype `test`.
 
-## PlatformIO падает из‑за пробела в пути
+## PlatformIO fails because of a space in the path
 
-Клонируйте репозиторий в путь **без пробелов**, например `Takt-OS`.
+Clone the repository into a path **without spaces**, for example `Takt-OS`.
 
-## BLE не работает
+## BLE does not work
 
-Включите `CONFIG_BT_NIMBLE_ENABLED` в sdkconfig. `BleModule` — заготовка без полного GATT DFU.
+Enable `CONFIG_BT_NIMBLE_ENABLED` in sdkconfig. `BleModule` is a stub without full GATT DFU.
 
-## Прошивка не влезает в recovery
+## Firmware does not fit in recovery
 
-Так задумано: recovery — 256 KB. Собирайте `recovery_app`, а не полный `demo_controller`.
+This is by design: recovery is 256 KB. Build `recovery_app`, not the full `demo_controller`.
 
-## Как указать атрибуцию TAKT OS в продукте?
+## How do I attribute TAKT OS in a product?
 
-См. [licensing.md](licensing.md) и [NOTICE](../NOTICE).
+See [licensing.md](licensing.md) and [NOTICE](../NOTICE).
 
-## Где справочник API?
+## Where is the API reference?
 
 [api_reference.md](api_reference.md)
 
-## Что не коммитить в git?
+## What should not be committed to git?
 
-`build/`, `.pio/`, `sdkconfig` — содержат пути вашей машины. См. [.gitignore](../.gitignore).
+`build/`, `.pio/`, `sdkconfig` — they contain machine-specific paths. See [.gitignore](../.gitignore).
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

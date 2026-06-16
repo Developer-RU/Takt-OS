@@ -42,3 +42,7 @@ TAKT OS v0.2.0 for ESP32-based industrial controllers (reference demo, IoT gatew
 | OTA rollback | FirmwareCache | test_firmware_cache.cpp |
 | Boot loop protection | Bootloader bootCount | test_bootloader.cpp |
 | Data integrity | NvsManager CRC + backup | test_nvs.cpp |
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)

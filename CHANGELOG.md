@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Public documentation hub and component reference under `docs/`
 
 ### Changed
-- Вики: только русское оглавление (`docs/wiki/`), без дублирования `docs/`; FAQ перенесён в `docs/faq.md`
+- Wiki: navigation-only index (`docs/wiki/`), no duplication of `docs/`; FAQ moved to `docs/faq.md`
 - Renamed example `wash_controller` → `demo_controller`; removed WASH-PRO branding
 - Events `WashCycleStart/Complete` → `CycleStarted` / `CycleCompleted`
 - GitHub repository URL: https://github.com/Developer-RU/Takt-OS
@@ -63,3 +63,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [Unreleased]: https://github.com/Developer-RU/Takt-OS/compare/v0.2.0...HEAD
 [0.2.0]: https://github.com/Developer-RU/Takt-OS/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/Developer-RU/Takt-OS/releases/tag/v0.1.0
+
+---
+
+**TAKT OS** — Developer: **Masyukov Pavel** ([p.masyukov@gmail.com](mailto:p.masyukov@gmail.com)) · License: [Apache License 2.0](https://github.com/Developer-RU/Takt-OS/blob/main/LICENSE) · [Source](https://github.com/Developer-RU/Takt-OS)
