@@ -1,0 +1,45 @@
+<script>
+(function () {
+  function labelTables() {
+    document.querySelectorAll('.content table').forEach(function (table) {
+      if (table.dataset.responsive === 'true') return;
+
+      var wrap = document.createElement('div');
+      wrap.className = 'table-wrap';
+      table.parentNode.insertBefore(wrap, table);
+      wrap.appendChild(table);
+
+      var headers = [];
+      table.querySelectorAll('thead th').forEach(function (th, i) {
+        headers[i] = th.textContent.trim();
+      });
+
+      if (!headers.length) {
+        var headRow = table.querySelector('tr');
+        if (headRow) {
+          headRow.querySelectorAll('th').forEach(function (th, i) {
+            headers[i] = th.textContent.trim();
+          });
+        }
+      }
+
+      table.querySelectorAll('tbody tr').forEach(function (row) {
+        row.querySelectorAll('td').forEach(function (td, i) {
+          if (headers[i]) {
+            td.setAttribute('data-label', headers[i]);
+          }
+        });
+      });
+
+      table.classList.add('table-responsive');
+      table.dataset.responsive = 'true';
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', labelTables);
+  } else {
+    labelTables();
+  }
+})();
+</script>

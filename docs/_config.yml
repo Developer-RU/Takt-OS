@@ -3,7 +3,7 @@
 
 title: TAKT OS
 description: Industrial cycle-based RTOS for ESP32 — takt scheduler, Modbus, MQTT, OTA
-version: "0.2.1"
+version: "0.2.2"
 
 url: https://developer-ru.github.io
 baseurl: /Takt-OS

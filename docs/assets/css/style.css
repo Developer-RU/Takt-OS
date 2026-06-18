@@ -192,8 +192,13 @@ a:hover { color: var(--primary-hover); text-decoration: underline; }
 .content table {
   width: 100%;
   border-collapse: collapse;
-  margin: 1rem 0;
+  margin: 0;
   font-size: 0.9rem;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 1rem 0;
 }
 
 .content th,
@@ -404,6 +409,65 @@ a:hover { color: var(--primary-hover); text-decoration: underline; }
 
   .site-footer {
     padding: 1rem 1.25rem 2rem;
+  }
+
+  /* Stack tables as cards — no horizontal scroll */
+  .content table.table-responsive {
+    display: block;
+    width: 100%;
+    border: none;
+  }
+
+  .content table.table-responsive thead {
+    display: none;
+  }
+
+  .content table.table-responsive tbody {
+    display: block;
+  }
+
+  .content table.table-responsive tr {
+    display: block;
+    margin-bottom: 0.85rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .content table.table-responsive tr:nth-child(even) td {
+    background: transparent;
+  }
+
+  .content table.table-responsive td {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 0.6rem 0.85rem;
+    text-align: right;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .content table.table-responsive td:last-child {
+    border-bottom: none;
+  }
+
+  .content table.table-responsive td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--muted);
+    text-align: left;
+    flex: 0 1 42%;
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  .content table.table-responsive td:not([data-label])::before {
+    content: none;
   }
 }
 
