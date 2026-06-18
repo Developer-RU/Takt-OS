@@ -4,9 +4,21 @@
   {% include head.html %}
 </head>
 <body>
+  <div class="sidebar-overlay" id="sidebar-overlay" aria-hidden="true"></div>
   <div class="site">
     {% include sidebar.html %}
     <div class="main">
+      <header class="mobile-header">
+        <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+        <a href="{{ '/' | relative_url }}" class="mobile-brand">
+          <img src="{{ '/assets/takt-os-icon.svg' | relative_url }}" alt="" width="28" height="28">
+          <span>TAKT OS</span>
+        </a>
+      </header>
       <main class="content">
         {{ content }}
       </main>
@@ -14,5 +26,6 @@
     </div>
   </div>
   {% include mermaid.html %}
+  {% include nav.js.html %}
 </body>
 </html>
