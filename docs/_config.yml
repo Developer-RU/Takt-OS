@@ -1,47 +1,70 @@
-# Jekyll / GitHub Pages — https://developer-ru.github.io/Takt-OS/
-# Publish source: branch main, folder /docs (Settings → Pages)
+# GitHub Pages — https://developer-ru.github.io/Takt-OS/
+# Deploy: GitHub Actions workflow .github/workflows/pages.yml
 
 title: TAKT OS
 description: Industrial cycle-based RTOS for ESP32 — takt scheduler, Modbus, MQTT, OTA
-logo: assets/takt-os-icon.svg
+version: "0.2.0"
 
 url: https://developer-ru.github.io
 baseurl: /Takt-OS
 
-remote_theme: pages-themes/cayman@v0.2.0
+repo_url: https://github.com/Developer-RU/Takt-OS
+issues_url: https://github.com/Developer-RU/Takt-OS/issues
+releases_url: https://github.com/Developer-RU/Takt-OS/releases
 
-markdown: kramdown
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
+markdown: GFM
+permalink: pretty
 
 plugins:
-  - jekyll-remote-theme
-  - jekyll-seo-tag
   - jekyll-relative-links
+  - jekyll-seo-tag
 
 relative_links:
   enabled: true
   collections: true
-
-show_downloads: true
-
-github:
-  repository: Developer-RU/Takt-OS
-  zip_url: https://github.com/Developer-RU/Takt-OS/archive/refs/heads/main.zip
-  tar_url: https://github.com/Developer-RU/Takt-OS/archive/refs/heads/main.tar.gz
-
-# Repo root files are not published — link via github.com in markdown.
-repo_url: https://github.com/Developer-RU/Takt-OS
 
 exclude:
   - wiki
   - Gemfile
   - Gemfile.lock
   - vendor
+  - README.md
 
 defaults:
   - scope:
       path: ""
     values:
       layout: default
+
+nav:
+  - title: Home
+    url: /
+  - title: Getting Started
+    url: /developer_guide/
+  - title: PlatformIO / VS Code
+    url: /platformio_vscode/
+  - title: Architecture
+    url: /architecture/
+  - title: Scheduler
+    url: /scheduler/
+  - title: Event Bus
+    url: /event_bus/
+  - title: Memory & NVS
+    url: /memory/
+  - title: Bootloader
+    url: /bootloader/
+  - title: Recovery / OTA
+    url: /recovery/
+  - title: API Reference
+    url: /api_reference/
+  - title: UML Diagrams
+    url: /uml/diagrams/
+  - title: Components
+    url: /components/kernel/
+  - title: FAQ
+    url: /faq/
+  - title: Licensing
+    url: /licensing/
+  - title: Releases
+    url: https://github.com/Developer-RU/Takt-OS/releases
+    external: true

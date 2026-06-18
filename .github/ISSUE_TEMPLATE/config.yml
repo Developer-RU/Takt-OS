@@ -1,4 +1,13 @@
 # Copyright 2024-2026 Masyukov Pavel <p.masyukov@gmail.com>
 # SPDX-License-Identifier: Apache-2.0
-# TAKT OS — https://github.com/Developer-RU/Takt-OS
 blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://developer-ru.github.io/Takt-OS/
+    about: Guides, architecture, API reference
+  - name: Security
+    url: https://github.com/Developer-RU/Takt-OS/blob/main/SECURITY.md
+    about: Report vulnerabilities responsibly
+  - name: Sponsor
+    url: https://github.com/sponsors/Developer-RU
+    about: Support TAKT OS development

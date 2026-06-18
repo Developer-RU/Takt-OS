@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: TAKT OS
+message: "If you use TAKT OS, please cite it as below."
+type: software
+authors:
+  - family-names: Masyukov
+    given-names: Pavel
+    email: p.masyukov@gmail.com
+repository-code: https://github.com/Developer-RU/Takt-OS
+url: https://developer-ru.github.io/Takt-OS/
+license: Apache-2.0
+version: 0.2.0
+keywords:
+  - esp32
+  - freertos
+  - embedded
+  - industrial
+  - modbus
+  - mqtt
+  - ota

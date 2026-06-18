@@ -1,0 +1,63 @@
+# Copyright 2024-2026 Masyukov Pavel <p.masyukov@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    container: espressif/idf:release-v5.2
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build demo_controller
+        run: |
+          . $IDF_PATH/export.sh
+          cd examples/demo_controller
+          idf.py set-target esp32
+          idf.py build
+
+      - name: Build recovery_app
+        run: |
+          . $IDF_PATH/export.sh
+          cd examples/recovery_app
+          idf.py set-target esp32
+          idf.py build
+
+      - name: Package release artifacts
+        run: |
+          mkdir -p dist
+          DEMO=examples/demo_controller/build
+          REC=examples/recovery_app/build
+          cp "$DEMO/demo_controller.bin" dist/ 2>/dev/null || true
+          cp "$DEMO/bootloader/bootloader.bin" dist/demo_controller-bootloader.bin 2>/dev/null || true
+          cp "$DEMO/partition_table/partition-table.bin" dist/demo_controller-partitions.bin 2>/dev/null || true
+          cp "$REC/recovery_app.bin" dist/ 2>/dev/null || true
+          cp examples/demo_controller/partitions.csv dist/
+          cp tools/partitions.csv dist/partitions-reference.csv
+          cat > dist/README.txt << EOF
+          TAKT OS ${GITHUB_REF_NAME}
+          https://github.com/Developer-RU/Takt-OS
+
+          demo_controller.bin — factory app (see partitions.csv)
+          recovery_app.bin — recovery partition (0x110000)
+          Apache License 2.0 — Masyukov Pavel
+          EOF
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          ls -la dist/
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

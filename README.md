@@ -14,7 +14,8 @@
 [![PlatformIO](https://img.shields.io/badge/PlatformIO-ready-f5822a?style=for-the-badge&logo=platformio&logoColor=white)](docs/platformio_vscode.md)
 [![FreeRTOS](https://img.shields.io/badge/runtime-FreeRTOS-7e57c2?style=for-the-badge)](https://www.freertos.org/)
 
-[![Docs](https://img.shields.io/badge/documentation-full-64748b?style=for-the-badge&logo=readthedocs&logoColor=white)](https://developer-ru.github.io/Takt-OS/)
+[![Docs](https://img.shields.io/badge/documentation-GitHub%20Pages-38bdf8?style=for-the-badge&logo=readthedocs&logoColor=white)](https://developer-ru.github.io/Takt-OS/)
+[![Release](https://img.shields.io/github/v/release/Developer-RU/Takt-OS?style=for-the-badge&logo=github&label=Release)](https://github.com/Developer-RU/Takt-OS/releases)
 [![Wiki](https://img.shields.io/badge/wiki-navigation-181717?style=for-the-badge&logo=github&logoColor=white)](docs/wiki/Home.md)
 [![CI](https://img.shields.io/github/actions/workflow/status/Developer-RU/Takt-OS/ci.yml?branch=main&style=for-the-badge&label=CI&logo=githubactions&logoColor=white)](https://github.com/Developer-RU/Takt-OS/actions)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-8b5cf6?style=for-the-badge&logo=github&logoColor=white)](CONTRIBUTING.md)
@@ -207,7 +208,8 @@ Component reference: [docs/components/](docs/components/) · File map: [docs/sou
 
 | | |
 |---|---|
-| [docs/README.md](docs/README.md) | Documentation source (also on [GitHub Pages](https://developer-ru.github.io/Takt-OS/)) |
+| [docs/README.md](docs/README.md) | Documentation source ([GitHub Pages](https://developer-ru.github.io/Takt-OS/)) |
+| [RELEASING.md](RELEASING.md) | Version tags, firmware release artifacts |
 | [docs/wiki/Home.md](docs/wiki/Home.md) | Wiki: navigation index |
 | [docs/faq.md](docs/faq.md) | Frequently asked questions |
 | [CHANGELOG.md](CHANGELOG.md) | Version history |
