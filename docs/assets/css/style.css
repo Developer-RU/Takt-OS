@@ -287,7 +287,7 @@ a:hover { color: var(--primary-hover); text-decoration: underline; }
   display: none;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .mobile-header {
     display: flex;
     align-items: center;
@@ -407,7 +407,7 @@ a:hover { color: var(--primary-hover); text-decoration: underline; }
   }
 }
 
-@media (min-width: 901px) {
+@media (min-width: 1025px) {
   .nav-toggle {
     display: none;
   }
